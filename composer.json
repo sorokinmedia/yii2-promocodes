@@ -18,7 +18,8 @@
     "require": {
         "yiisoft/yii2": ">=2.0.6",
         "sorokinmedia/yii2-ar-relations": "*",
-        "sorokinmedia/yii2-helpers": "dev-master"
+        "sorokinmedia/yii2-helpers": "dev-master",
+        "sorokinmedia/yii2-user": "dev-master"
     },
     "require-dev": {
         "phpunit/phpunit": "4.*"
