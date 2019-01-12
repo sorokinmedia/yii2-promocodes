@@ -1,0 +1,44 @@
+{
+    "name": "sorokinmedia/yii2-promocodes",
+    "description": "Promocodes component for Yii2",
+    "type": "yii2-extension",
+    "keywords": ["yii2", "yii 2", "promocode"],
+    "license": "BSD-3-Clause",
+    "authors": [
+        {
+            "name": "Ruslan Gilyazetdinov",
+            "email": "ma3obblu@gmail.com",
+            "homepage": "https://vk.com/ma3obblu"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/sorokinmedia/yii2-promocodes/issues?state=open",
+        "source": "https://github.com/sorokinmedia/yii2-promocodes"
+    },
+    "require": {
+        "yiisoft/yii2": ">=2.0.6",
+        "sorokinmedia/yii2-ar-relations": "*",
+        "sorokinmedia/yii2-helpers": "dev-master"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "4.*"
+    },
+    "autoload": {
+        "psr-4": {
+            "sorokinmedia\\promocodes\\": "src/",
+            "sorokinmedia\\promocodes\\entities\\": "src/entities/",
+            "sorokinmedia\\promocodes\\forms\\": "src/forms/",
+            "sorokinmedia\\promocodes\\handlers\\": "src/handlers/",
+            "sorokinmedia\\promocodes\\migrations\\": "src/migrations/",
+            "sorokinmedia\\promocodes\\tests\\": "tests/",
+            "sorokinmedia\\promocodes\\tests\\entities\\": "tests/entities",
+            "sorokinmedia\\promocodes\\tests\\handlers\\": "tests/handlers"
+        }
+    },
+    "extra": {
+        "asset-installer-paths": {
+            "npm-asset-library": "vendor/npm",
+            "bower-asset-library": "vendor/bower"
+        }
+    }
+}
