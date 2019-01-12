@@ -36,8 +36,9 @@ abstract class AbstractPromoCodeCategory extends ActiveRecord implements Relatio
         return [
             [['name'], 'required'],
             [['name'], 'string', 'max' => 255],
-            [['parent_id', 'has_child'], 'integer'],
-            [['has_child'], 'default', 'value' => 0]
+            [['parent_id'], 'integer'],
+            [['has_child'], 'boolean'],
+            [['has_child'], 'default', 'value' => false]
         ];
     }
 
@@ -105,6 +106,7 @@ abstract class AbstractPromoCodeCategory extends ActiveRecord implements Relatio
         if (!$this->insert()){
             throw new Exception(\Yii::t('app', 'Ошибка при добавлении в БД'));
         }
+        $this->updateParent();
         return true;
     }
 
@@ -118,6 +120,7 @@ abstract class AbstractPromoCodeCategory extends ActiveRecord implements Relatio
         if (!$this->save()){
             throw new Exception(\Yii::t('app', 'Ошибка при обновлении в БД'));
         }
+        $this->updateParent();
         return true;
     }
 
@@ -132,6 +135,39 @@ abstract class AbstractPromoCodeCategory extends ActiveRecord implements Relatio
         //todo: удаление связанных сущностей и упоминаний
         if (!$this->delete()){
             throw new Exception(\Yii::t('app', 'Ошибка при удалении из БД'));
+        }
+        $this->updateParent();
+        return true;
+    }
+
+    /**
+     * апдейт родительского элемента
+     * @return bool
+     * @throws Exception
+     */
+    public function updateParent() : bool
+    {
+        if ($this->parent_id !== null && $this->parent_id > 0 && $this->parent_id !== ''){
+            return $this->parent->hasChildUpdate(1);
+        }
+        $child_count = self::find()->where(['parent_id' => $this->parent_id])->count();
+        if ($child_count === 0){
+            return $this->parent->hasChildUpdate(0);
+        }
+        return true;
+    }
+
+    /**
+     * апдейт параметра has_child
+     * @param int $has_child
+     * @return bool
+     * @throws Exception
+     */
+    public function hasChildUpdate(int $has_child) : bool
+    {
+        $this->has_child = $has_child;
+        if (!$this->save()){
+            throw new Exception(\Yii::t('app', 'Ошибка при обновлении родителя'));
         }
         return true;
     }
@@ -156,6 +192,7 @@ abstract class AbstractPromoCodeCategory extends ActiveRecord implements Relatio
         if (!$promo_category->insert()){
             throw new Exception(\Yii::t('app', 'Ошибка при добавлении в БД'));
         }
+        $promo_category->updateParent();
         return $promo_category;
     }
 }

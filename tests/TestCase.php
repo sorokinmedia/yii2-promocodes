@@ -8,7 +8,7 @@ use yii\db\Schema;
 
 /**
  * Class TestCase
- * @package sorokinmedia\user\tests
+ * @package sorokinmedia\promocodes\tests
  */
 abstract class TestCase extends \PHPUnit_Framework_TestCase
 {
@@ -82,8 +82,8 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
             'last_entering_date' => Schema::TYPE_INTEGER . '(11)',
             'email_confirm_token' => Schema::TYPE_STRING . '(255)'
         ])->execute();
-        if ($db->getTableSchema('company')){
-            $db->createCommand()->dropTable('company')->execute();
+        if ($db->getTableSchema('user_meta')){
+            $db->createCommand()->dropTable('user_meta')->execute();
         }
         $db->createCommand()->createTable('user_meta', [
             'user_id' => Schema::TYPE_INTEGER,
@@ -110,39 +110,49 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
             'is_active' => Schema::TYPE_TINYINT,
             'PRIMARY KEY(user_id, access_token)',
         ])->execute();
-        if ($db->getTableSchema('sms_code')){
-            $db->createCommand()->dropTable('sms_code')->execute();
+
+        if ($db->getTableSchema('promo_code')){
+            $db->createCommand()->dropTable('promo_code')->execute();
         }
-        $db->createCommand()->createTable('sms_code', [
+        $db->createCommand()->createTable('promo_code', [
+            'id' => Schema::TYPE_PK,
+            'value' => Schema::TYPE_STRING . '(255) NOT NULL',
+            'title' => Schema::TYPE_STRING . '(255) NOT NULL',
+            'description' => Schema::TYPE_STRING . '(255)',
+            'cat_id' => Schema::TYPE_INTEGER,
+            'type_id' => Schema::TYPE_INTEGER,
+            'creator_id' => Schema::TYPE_INTEGER,
+            'beneficiary_id' => Schema::TYPE_INTEGER,
+            'date_from' => Schema::TYPE_INTEGER,
+            'date_to' => Schema::TYPE_INTEGER,
+            'sum_promo' => Schema::TYPE_MONEY,
+            'sum_recharge' => Schema::TYPE_MONEY,
+            'discount_fixed' => Schema::TYPE_MONEY,
+            'discount_percentage' => Schema::TYPE_INTEGER,
+            'is_available_old' => Schema::TYPE_BOOLEAN
+        ])->execute();
+
+        if ($db->getTableSchema('promo_code_category')){
+            $db->createCommand()->dropTable('promo_code_category')->execute();
+        }
+        $db->createCommand()->createTable('promo_code_category', [
+            'id' => Schema::TYPE_PK,
+            'name' => Schema::TYPE_STRING . '(255) NOT NULL',
+            'parent_id' => Schema::TYPE_INTEGER,
+            'has_child' => Schema::TYPE_BOOLEAN,
+        ])->execute();
+
+        if ($db->getTableSchema('promo_code_log')){
+            $db->createCommand()->dropTable('promo_code_log')->execute();
+        }
+        $db->createCommand()->createTable('promo_code_log', [
             'id' => Schema::TYPE_PK,
             'user_id' => Schema::TYPE_INTEGER,
-            'phone' => Schema::TYPE_STRING . '(12) NOT NULL',
-            'created_at' => Schema::TYPE_INTEGER . '(11)',
-            'code' => Schema::TYPE_INTEGER . '(4)',
-            'type_id' => Schema::TYPE_INTEGER . '(1)',
-            'ip' => Schema::TYPE_STRING . '(15)',
-            'is_used' => Schema::TYPE_INTEGER . '(2)',
-            'is_validated' => Schema::TYPE_INTEGER . '(1)',
-            'is_deleted' => Schema::TYPE_INTEGER . '(1)',
-        ])->execute();
-        if ($db->getTableSchema('company')){
-            $db->createCommand()->dropTable('company')->execute();
-        }
-        $db->createCommand()->createTable('company', [
-            'id' => Schema::TYPE_INTEGER,
-            'owner_id' => Schema::TYPE_INTEGER,
-            'name' => Schema::TYPE_STRING . '(500)',
-            'description' => Schema::TYPE_TEXT,
-            'PRIMARY KEY(id)',
-        ])->execute();
-        if ($db->getTableSchema('company_user')){
-            $db->createCommand()->dropTable('company_user')->execute();
-        }
-        $db->createCommand()->createTable('company_user', [
-            'company_id' => Schema::TYPE_INTEGER,
-            'user_id' => Schema::TYPE_INTEGER,
-            'role' => Schema::TYPE_STRING . '(255)',
-            'PRIMARY KEY(company_id, user_id, role)',
+            'promo_code_id' => Schema::TYPE_INTEGER,
+            'operation_id' => Schema::TYPE_INTEGER,
+            'status_id' => Schema::TYPE_INTEGER,
+            'created_at' => Schema::TYPE_INTEGER,
+            'updated_at' => Schema::TYPE_INTEGER,
         ])->execute();
 
         $this->initDefaultData();
@@ -191,28 +201,37 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
             'about' => 'О себе: текст',
             'custom_fields' => '[{"name": "Афвф", "value": "аывфыы 34"}]',
         ])->execute();
-        $db->createCommand()->insert('sms_code', [
+        $db->createCommand()->insert('promo_code_category', [
             'id' => 1,
-            'user_id' => 1,
-            'phone' => '79198078281',
-            'created_at' => 1536009859,
-            'code' => 3244,
+            'name' => 'test_category',
+            'parent_id' => null,
+            'has_child' => false,
+        ])->execute();
+        $db->createCommand()->insert('promo_code', [
+            'id' => 1,
+            'value' => 'test_promo',
+            'title' => 'тестовый промокод',
+            'description' => 'описание промокода',
+            'cat_id' => 1,
             'type_id' => 1,
-            'ip' => '109.124.226.156',
-            'is_used' => 0,
-            'is_validated' => 0,
-            'is_deleted' => 0,
+            'creator_id' => 1,
+            'beneficiary_id' => 1,
+            'date_from' => 1514764800,
+            'date_to' => 1577836800,
+            'sum_promo' => 1000,
+            'sum_recharge' => 2000,
+            'discount_fixed' => null,
+            'discount_percentage' => null,
+            'is_available_old' => 1
         ])->execute();
-        $db->createCommand()->insert('company', [
+        $db->createCommand()->insert('promo_code_log', [
             'id' => 1,
-            'owner_id' => 1,
-            'name' => 'Моя компания',
-            'description' => null
-        ])->execute();
-        $db->createCommand()->insert('company_user', [
-            'company_id' => 1,
             'user_id' => 1,
-            'role' => User::ROLE_OWNER
+            'promo_code_id' => 1,
+            'operation_id' => 1,
+            'status_id' => 1,
+            'created_at' => 1514765000,
+            'updated_at' => 1514765000
         ])->execute();
     }
 
@@ -241,17 +260,45 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
             'email_confirm_token' => null,
         ])->execute();
 
-        $db->createCommand()->insert('sms_code', [
+        $db->createCommand()->insert('promo_code_category', [
+            'id' => 2,
+            'name' => 'test category parent',
+            'parent_id' => null,
+            'has_child' => 1,
+        ])->execute();
+
+        $db->createCommand()->insert('promo_code_category', [
+            'id' => 3,
+            'name' => 'test category child',
+            'parent_id' => 2,
+            'has_child' => 0,
+        ])->execute();
+
+        $db->createCommand()->insert('promo_code', [
+            'id' => 2,
+            'value' => 'test_promo_non_active',
+            'title' => 'тестовый неактивный промокод',
+            'description' => 'описание промокода неактивный',
+            'cat_id' => 1,
+            'type_id' => 1,
+            'creator_id' => 1,
+            'beneficiary_id' => 1,
+            'date_from' => 1514764800,
+            'date_to' => 1517443200,
+            'sum_promo' => 1000,
+            'sum_recharge' => 2000,
+            'discount_fixed' => null,
+            'discount_percentage' => null,
+            'is_available_old' => 0
+        ])->execute();
+        $db->createCommand()->insert('promo_code_log', [
             'id' => 2,
             'user_id' => 1,
-            'phone' => '79198078281',
-            'created_at' => time() - 3600,
-            'code' => 4432,
-            'type_id' => 1,
-            'ip' => '109.124.226.156',
-            'is_used' => 0,
-            'is_validated' => 0,
-            'is_deleted' => 0,
+            'promo_code_id' => 1,
+            'operation_id' => null,
+            'status_id' => 2,
+            'created_at' => 1514765000,
+            'updated_at' => 1514765000
         ])->execute();
     }
 }

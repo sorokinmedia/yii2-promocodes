@@ -108,6 +108,7 @@ abstract class AbstractPromoCode extends ActiveRecord implements RelationInterfa
     }
 
     /**
+     * //todo: need test with billing extension
      * @return ActiveQuery
      */
     public function getOperations() : ActiveQuery

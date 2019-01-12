@@ -41,7 +41,7 @@ abstract class AbstractPromoCodeLog extends ActiveRecord implements RelationInte
     public function rules() : array
     {
         return [
-            [['code_id', 'operation_id', 'status_id', 'user_id'], 'integer'],
+            [['promo_code_id', 'operation_id', 'status_id', 'user_id'], 'integer'],
         ];
     }
 
@@ -84,7 +84,7 @@ abstract class AbstractPromoCodeLog extends ActiveRecord implements RelationInte
      */
     public function getPromoCode(): ActiveQuery
     {
-        return $this->hasOne($this->__promoCodeClass, ['id' => 'code_id']);
+        return $this->hasOne($this->__promoCodeClass, ['id' => 'promo_code_id']);
     }
 
     /**
@@ -138,14 +138,14 @@ abstract class AbstractPromoCodeLog extends ActiveRecord implements RelationInte
     public static function create(AbstractPromoCode $promoCode, IdentityInterface $user, int $status_id, int $operation_id = null): AbstractPromoCodeLog
     {
         /** @var AbstractUser $user */
-        $promo_code_log = static::findOne(['code_id' => $promoCode->id, 'user_id' => $user->id]);
+        $promo_code_log = static::findOne(['promo_code_id' => $promoCode->id, 'user_id' => $user->id, 'status_id' => $status_id]);
         if ($promo_code_log instanceof self) {
             return $promo_code_log;
         }
         $promo_code_log = new static([
             'user_id' => $user->id,
-            'code_id' => $promoCode->id,
-            'status' => $status_id,
+            'promo_code_id' => $promoCode->id,
+            'status_id' => $status_id,
             'operation_id' => $operation_id
         ]);
         if (!$promo_code_log->insert()) {
