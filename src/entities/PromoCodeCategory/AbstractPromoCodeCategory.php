@@ -195,4 +195,21 @@ abstract class AbstractPromoCodeCategory extends ActiveRecord implements Relatio
         $promo_category->updateParent();
         return $promo_category;
     }
+
+    /**
+     * //todo: test
+     * список родитилей
+     * @return array
+     */
+    public static function getParentsArray() : array
+    {
+        return static::find()
+            ->select([
+                'name', 'id'
+            ])
+            ->where(['parent_id' => null])
+            ->indexBy('id')
+            ->orderBy(['name' => SORT_ASC])
+            ->column();
+    }
 }
