@@ -25,6 +25,7 @@ class PromoCodeCategoryForm extends Model
             [['name'], 'required'],
             [['name'], 'string', 'max' => 255],
             [['parent_id'], 'integer'],
+            [['parent_id'], 'default', 'value' => 0]
         ];
     }
 

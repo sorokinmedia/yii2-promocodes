@@ -205,7 +205,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
             'id' => 1,
             'name' => 'test_category',
             'parent_id' => 0,
-            'has_child' => false,
+            'has_child' => 0,
         ])->execute();
         $db->createCommand()->insert('promo_code', [
             'id' => 1,

@@ -16,7 +16,7 @@ use sorokinmedia\ar_relations\RelationInterface;
  * @property int $has_child
  *
  * @property PromoCodeCategoryForm $form
- * @property int $level
+ * @property int|string $level
  */
 abstract class AbstractPromoCodeCategory extends ActiveRecord implements RelationInterface, PromoCodeCategoryInterface, TreeViewModelStaticInterface
 {
@@ -39,9 +39,8 @@ abstract class AbstractPromoCodeCategory extends ActiveRecord implements Relatio
         return [
             [['name'], 'required'],
             [['name'], 'string', 'max' => 255],
-            [['parent_id'], 'integer'],
-            [['has_child'], 'boolean'],
-            [['has_child'], 'default', 'value' => false]
+            [['parent_id', 'has_child'], 'integer'],
+            [['parent_id', 'has_child'], 'default', 'value' => 0],
         ];
     }
 
@@ -95,6 +94,7 @@ abstract class AbstractPromoCodeCategory extends ActiveRecord implements Relatio
         if ($this->form !== null){
             $this->name = $this->form->name;
             $this->parent_id = $this->form->parent_id;
+            $this->has_child = 0;
         }
     }
 
@@ -182,7 +182,7 @@ abstract class AbstractPromoCodeCategory extends ActiveRecord implements Relatio
      * @return AbstractPromoCodeCategory
      * @throws Exception
      */
-    public static function create(string $name, int $parent_id = null) : self
+    public static function create(string $name, int $parent_id = 0) : self
     {
         $promo_category = static::findOne(['name' => $name]);
         if ($promo_category instanceof self){
@@ -191,6 +191,7 @@ abstract class AbstractPromoCodeCategory extends ActiveRecord implements Relatio
         $promo_category = new static([
             'name' => $name,
             'parent_id' => $parent_id,
+            'has_child' => 0
         ]);
         if (!$promo_category->insert()){
             throw new Exception(\Yii::t('app', 'Ошибка при добавлении в БД'));
@@ -210,7 +211,7 @@ abstract class AbstractPromoCodeCategory extends ActiveRecord implements Relatio
             ->select([
                 'name', 'id'
             ])
-            ->where(['parent_id' => null])
+            ->where(['parent_id' => 0])
             ->indexBy('id')
             ->orderBy(['name' => SORT_ASC])
             ->column();

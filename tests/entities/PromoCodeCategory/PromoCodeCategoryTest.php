@@ -86,15 +86,15 @@ class PromoCodeCategoryTest extends TestCase
         $category = new PromoCodeCategory();
         $category_form = new PromoCodeCategoryForm([
             'name' => 'test_create',
-            'parent_id' => null
+            'parent_id' => 0
         ], $category);
         $category->form = $category_form;
         $category->insertModel();
         $category->refresh();
         $this->assertInstanceOf(PromoCodeCategory::class, $category);
         $this->assertEquals('test_create', $category->name);
-        $this->assertNull($category->parent_id);
-        $this->assertFalse($category->has_child);
+        $this->assertEquals(0, $category->parent_id);
+        $this->assertEquals(0, $category->has_child);
     }
 
     /**
@@ -134,7 +134,7 @@ class PromoCodeCategoryTest extends TestCase
         $category = PromoCodeCategory::findOne(1);
         $form = new PromoCodeCategoryForm([
             'name' => 'test_update',
-            'parent_id' => null
+            'parent_id' => 0
         ]);
         $category->form = $form;
         $category->updateModel();
@@ -170,9 +170,9 @@ class PromoCodeCategoryTest extends TestCase
         $this->assertInstanceOf(PromoCodeCategory::class, $category);
         $this->assertEquals('test_static_create', $category->name);
         $this->assertEquals(1, $category->parent_id);
-        $this->assertFalse($category->has_child);
+        $this->assertEquals(0, $category->has_child);
         $parent = PromoCodeCategory::findOne(1);
-        $this->assertTrue($parent->has_child);
+        $this->assertEquals(1, $parent->has_child);
     }
 
     /**
@@ -187,7 +187,23 @@ class PromoCodeCategoryTest extends TestCase
         $this->assertInstanceOf(PromoCodeCategory::class, $category);
         $this->assertEquals('test_category', $category->name);
         $this->assertEquals(0, $category->parent_id);
-        $this->assertFalse($category->has_child);
+        $this->assertEquals(0, $category->has_child);
+    }
+
+    /**
+     * @group promo-code-category
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\db\Exception
+     */
+    public function testGetParentsArray()
+    {
+        $this->initDb();
+        $this->initDbAdditional();
+        $array = PromoCodeCategory::getParentsArray();
+        $this->assertEquals([
+            '2' => 'test category parent',
+            '1' => 'test_category'
+        ], $array);
     }
 
     /**
@@ -202,8 +218,18 @@ class PromoCodeCategoryTest extends TestCase
         $tree = PromoCodeCategoryTree::makeTreeStaticArray(PromoCodeCategory::class, 0, '-');
         $this->assertInternalType('array', $tree[0]);
         $this->assertEquals([
-            'id' => 2,
-            'name' => '-test category parent'
-        ], $tree[0]);
+            [
+                'id' => 2,
+                'name' => '-test category parent',
+            ],
+            [
+                'id' => 3,
+                'name' => '--test category child'
+            ],
+            [
+                'id' => 1,
+                'name' => '-test_category'
+            ]
+        ], $tree);
     }
 }
