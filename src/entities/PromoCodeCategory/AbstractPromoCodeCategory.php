@@ -3,6 +3,7 @@
 namespace sorokinmedia\promocodes\entities\PromoCodeCategory;
 
 use sorokinmedia\promocodes\forms\PromoCodeCategoryForm;
+use sorokinmedia\treeview\TreeViewModelStaticInterface;
 use yii\db\{ActiveQuery, ActiveRecord, Exception};
 use sorokinmedia\ar_relations\RelationInterface;
 
@@ -15,10 +16,12 @@ use sorokinmedia\ar_relations\RelationInterface;
  * @property int $has_child
  *
  * @property PromoCodeCategoryForm $form
+ * @property int $level
  */
-abstract class AbstractPromoCodeCategory extends ActiveRecord implements RelationInterface, PromoCodeCategoryInterface
+abstract class AbstractPromoCodeCategory extends ActiveRecord implements RelationInterface, PromoCodeCategoryInterface, TreeViewModelStaticInterface
 {
     public $form;
+    public $level;
 
     /**
      * @return string
@@ -211,5 +214,18 @@ abstract class AbstractPromoCodeCategory extends ActiveRecord implements Relatio
             ->indexBy('id')
             ->orderBy(['name' => SORT_ASC])
             ->column();
+    }
+
+    /**
+     * @param int $parent_id
+     * @param null $filter
+     * @return array|mixed|ActiveRecord[]
+     */
+    public static function getChildModelsStatic(int $parent_id, $filter = null)
+    {
+        return static::find()
+            ->where(['parent_id' => $parent_id])
+            ->orderBy(['name' => SORT_ASC])
+            ->all();
     }
 }

@@ -204,7 +204,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
         $db->createCommand()->insert('promo_code_category', [
             'id' => 1,
             'name' => 'test_category',
-            'parent_id' => null,
+            'parent_id' => 0,
             'has_child' => false,
         ])->execute();
         $db->createCommand()->insert('promo_code', [
@@ -263,7 +263,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
         $db->createCommand()->insert('promo_code_category', [
             'id' => 2,
             'name' => 'test category parent',
-            'parent_id' => null,
+            'parent_id' => 0,
             'has_child' => 1,
         ])->execute();
 

@@ -2,8 +2,8 @@
 
 namespace sorokinmedia\promocodes\tests\entities\PromoCodeCategory;
 
+use sorokinmedia\promocodes\entities\PromoCodeCategory\PromoCodeCategoryTree;
 use sorokinmedia\promocodes\forms\PromoCodeCategoryForm;
-use sorokinmedia\promocodes\handlers\PromoCodeCategory\PromoCodeCategoryHandler;
 use sorokinmedia\promocodes\tests\entities\PromoCode\PromoCode;
 use sorokinmedia\promocodes\tests\TestCase;
 
@@ -186,7 +186,24 @@ class PromoCodeCategoryTest extends TestCase
         $category = PromoCodeCategory::create('test_category');
         $this->assertInstanceOf(PromoCodeCategory::class, $category);
         $this->assertEquals('test_category', $category->name);
-        $this->assertNull($category->parent_id);
+        $this->assertEquals(0, $category->parent_id);
         $this->assertFalse($category->has_child);
+    }
+
+    /**
+     * @group promo-code-category
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\db\Exception
+     */
+    public function testTree()
+    {
+        $this->initDb();
+        $this->initDbAdditional();
+        $tree = PromoCodeCategoryTree::makeTreeStaticArray(PromoCodeCategory::class, 0, '-');
+        $this->assertInternalType('array', $tree[0]);
+        $this->assertEquals([
+            'id' => 2,
+            'name' => '-test category parent'
+        ], $tree[0]);
     }
 }
