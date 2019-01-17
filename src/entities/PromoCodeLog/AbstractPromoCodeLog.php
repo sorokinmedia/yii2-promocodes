@@ -133,10 +133,10 @@ abstract class AbstractPromoCodeLog extends ActiveRecord implements RelationInte
     /**
      * @param AbstractPromoCode $promoCode
      * @param IdentityInterface $user
-     * @return AbstractPromoCodeLog
+     * @return PromoCodeLogInterface
      * @throws Exception
      */
-    public static function create(AbstractPromoCode $promoCode, IdentityInterface $user): AbstractPromoCodeLog
+    public static function create(AbstractPromoCode $promoCode, IdentityInterface $user): PromoCodeLogInterface
     {
         /** @var AbstractUser $user */
         $promo_code_log = static::findOne(['promo_code_id' => $promoCode->id, 'user_id' => $user->id]);
