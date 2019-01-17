@@ -8,7 +8,7 @@ namespace sorokinmedia\promocodes\handlers\PromoCode\interfaces;
 interface Activate
 {
     /**
-     * @return bool
+     * @return int
      */
-    public function activate() : bool;
+    public function activate() : int;
 }

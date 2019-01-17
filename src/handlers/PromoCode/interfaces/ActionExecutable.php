@@ -11,5 +11,5 @@ interface ActionExecutable
     /**
      * @return mixed
      */
-    public function execute() : bool;
+    public function execute();
 }

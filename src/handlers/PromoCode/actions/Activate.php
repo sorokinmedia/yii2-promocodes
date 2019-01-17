@@ -2,6 +2,7 @@
 namespace sorokinmedia\promocodes\handlers\PromoCode\actions;
 
 use yii\db\Exception;
+use yii\web\ServerErrorHttpException;
 
 /**
  * Class Activate
@@ -10,19 +11,22 @@ use yii\db\Exception;
 class Activate extends AbstractAction
 {
     /**
-     * @return bool
+     * @return int
      * @throws Exception
+     * @throws ServerErrorHttpException
      */
-    public function execute() : bool
+    public function execute() : int
     {
-        //todo: refactor
-        /*if ($this->user->userAffiliate === null && $this->promoCode->user_id) {
-            $user_affiliate = UserAffiliate::create($this->user, $this->promoCode->user);
-            if (!$user_affiliate instanceof UserAffiliate){
-                throw new Exception(\Yii::t('app', 'Ошибка при добавлении аффилиатной связи'));
-            }
+        //todo: test transaction
+        $transaction = \Yii::$app->db->beginTransaction();
+        try{
+            $this->promo_code->afterRechargeBeneficiary();
+            $operation_id = $this->promo_code->afterRechargePayment();
+            $transaction->commit();
+            return $operation_id;
+        } catch (\Exception $e) {
+            $transaction->rollBack();
+            throw new ServerErrorHttpException($e->getTraceAsString());
         }
-        PaymentPromoCode::addOperationPromoCode($this->user, $this->promoCode);*/
-        return true;
     }
 }

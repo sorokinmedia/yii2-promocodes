@@ -76,4 +76,16 @@ interface PromoCodeInterface
      * @return bool
      */
     public function checkCode(IdentityInterface $user) : bool;
+
+    /**
+     * операция пополнения счета на промо сумму. должна вернуть ID добавленной операции
+     * @return int
+     */
+    public function afterRechargePayment() : int;
+
+    /**
+     * операции для бенефициара после активации промокода
+     * @return bool
+     */
+    public function afterRechargeBeneficiary() : bool;
 }

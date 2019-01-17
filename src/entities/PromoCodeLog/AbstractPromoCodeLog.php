@@ -4,6 +4,7 @@ namespace sorokinmedia\promocodes\entities\PromoCodeLog;
 
 use sorokinmedia\ar_relations\RelationInterface;
 use sorokinmedia\promocodes\entities\PromoCode\AbstractPromoCode;
+use sorokinmedia\promocodes\tests\entities\PromoCode\PromoCode;
 use sorokinmedia\user\entities\User\AbstractUser;
 use yii\behaviors\TimestampBehavior;
 use yii\db\{ActiveQuery, ActiveRecord, Exception};
@@ -19,6 +20,8 @@ use yii\web\IdentityInterface;
  * @property int $status_id
  * @property int $created_at
  * @property int $updated_at
+ *
+ * @property PromoCode $promoCode
  */
 abstract class AbstractPromoCodeLog extends ActiveRecord implements RelationInterface, PromoCodeLogInterface
 {
@@ -156,7 +159,7 @@ abstract class AbstractPromoCodeLog extends ActiveRecord implements RelationInte
      * @return bool
      * @throws Exception
      */
-    public function activate(int $operation_id): bool
+    public function setActivated(int $operation_id): bool
     {
         $this->status_id = self::STATUS_ACTIVATE;
         $this->operation_id = $operation_id;
@@ -171,11 +174,25 @@ abstract class AbstractPromoCodeLog extends ActiveRecord implements RelationInte
      * @return bool
      * @throws Exception
      */
-    public function overdue(): bool
+    public function setOverdue(): bool
     {
         $this->status_id = self::STATUS_OVERDUE;
         if (!$this->save()) {
             throw new Exception(\Yii::t('app', 'Ошибка при просрочке промокода'));
+        }
+        return true;
+    }
+
+    /**
+     * @return bool
+     * @throws Exception
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
+     */
+    public function deleteModel() : bool
+    {
+        if (!$this->delete()){
+            throw new Exception(\Yii::t('app', 'Ошибка при удалении из БД'));
         }
         return true;
     }

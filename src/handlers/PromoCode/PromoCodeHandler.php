@@ -55,10 +55,10 @@ class PromoCodeHandler implements Create, Update, Delete, Activate
     }
 
     /**
-     * @return bool
+     * @return int
      * @throws \Exception
      */
-    public function activate(): bool
+    public function activate(): int
     {
         return (new actions\Activate($this->promo_code))->execute();
     }

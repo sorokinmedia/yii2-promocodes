@@ -3,7 +3,7 @@
 namespace sorokinmedia\promocodes\handlers\PromoCodeLog;
 
 use sorokinmedia\promocodes\entities\PromoCodeLog\AbstractPromoCodeLog;
-use sorokinmedia\promocodes\handlers\PromoCodeLog\interfaces\{Create, Delete, Update, Ovedue};
+use sorokinmedia\promocodes\handlers\PromoCodeLog\interfaces\{Delete, Overdue, Activate};
 use yii\db\Exception;
 
 /**
@@ -12,7 +12,7 @@ use yii\db\Exception;
  *
  * @property AbstractPromoCodeLog $promo_code_log
  */
-class PromoCodeLogHandler implements Create, Update, Delete, Overdue
+class PromoCodeLogHandler implements Delete, Overdue, Activate
 {
     public $promo_code_log;
 
@@ -28,25 +28,7 @@ class PromoCodeLogHandler implements Create, Update, Delete, Overdue
 
     /**
      * @return bool
-     * @throws \Throwable
      * @throws Exception
-     */
-    public function create(): bool
-    {
-        return (new actions\Create($this->promo_code_log))->execute();
-    }
-
-    /**
-     * @return bool
-     * @throws Exception
-     */
-    public function update(): bool
-    {
-        return (new actions\Update($this->promo_code_log))->execute();
-    }
-
-    /**
-     * @return bool
      * @throws \Throwable
      */
     public function delete(): bool
@@ -56,9 +38,20 @@ class PromoCodeLogHandler implements Create, Update, Delete, Overdue
 
     /**
      * @return bool
+     * @throws Exception
+     * @throws \Throwable
      */
     public function overdue() : bool
     {
         return (new actions\Overdue($this->promo_code_log))->execute();
+    }
+
+    /**
+     * @return bool
+     * @throws Exception
+     */
+    public function activate(): bool
+    {
+        return (new actions\Activate($this->promo_code_log))->execute();
     }
 }
