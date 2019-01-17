@@ -119,11 +119,11 @@ abstract class AbstractPromoCodeCategory extends ActiveRecord implements Relatio
      */
     public function updateModel() : bool
     {
+        $this->updateParent();
         $this->getFromForm();
         if (!$this->save()){
             throw new Exception(\Yii::t('app', 'Ошибка при обновлении в БД'));
         }
-        $this->updateParent();
         return true;
     }
 
