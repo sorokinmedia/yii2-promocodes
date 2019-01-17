@@ -119,14 +119,15 @@ abstract class AbstractPromoCode extends ActiveRecord implements RelationInterfa
 
     /**
      * AbstractPromoCode constructor.
+     * @param array $config
      * @param PromoCodeForm|null $form
      */
-    public function __construct(PromoCodeForm $form = null)
+    public function __construct(array $config = [], PromoCodeForm $form = null)
     {
         if ($form !== null){
             $this->form = $form;
         }
-        parent::__construct();
+        parent::__construct($config);
     }
 
     /**
