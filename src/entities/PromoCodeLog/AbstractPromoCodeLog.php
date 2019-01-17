@@ -130,23 +130,19 @@ abstract class AbstractPromoCodeLog extends ActiveRecord implements RelationInte
     /**
      * @param AbstractPromoCode $promoCode
      * @param IdentityInterface $user
-     * @param int $status_id
-     * @param int|null $operation_id
      * @return AbstractPromoCodeLog
      * @throws Exception
      */
-    public static function create(AbstractPromoCode $promoCode, IdentityInterface $user, int $status_id, int $operation_id = null): AbstractPromoCodeLog
+    public static function create(AbstractPromoCode $promoCode, IdentityInterface $user): AbstractPromoCodeLog
     {
         /** @var AbstractUser $user */
-        $promo_code_log = static::findOne(['promo_code_id' => $promoCode->id, 'user_id' => $user->id, 'status_id' => $status_id]);
+        $promo_code_log = static::findOne(['promo_code_id' => $promoCode->id, 'user_id' => $user->id]);
         if ($promo_code_log instanceof self) {
             return $promo_code_log;
         }
         $promo_code_log = new static([
             'user_id' => $user->id,
             'promo_code_id' => $promoCode->id,
-            'status_id' => $status_id,
-            'operation_id' => $operation_id
         ]);
         if (!$promo_code_log->insert()) {
             throw new Exception(\Yii::t('app', 'Ошибка при добавления лога в БД'));
