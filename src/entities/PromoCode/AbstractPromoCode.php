@@ -4,6 +4,7 @@ namespace sorokinmedia\promocodes\entities\PromoCode;
 use sorokinmedia\ar_relations\RelationInterface;
 use sorokinmedia\promocodes\forms\PromoCodeForm;
 use yii\db\{ActiveQuery, ActiveRecord, Exception};
+use yii\web\IdentityInterface;
 
 /**
  * Class AbstractPromoCode
@@ -154,7 +155,7 @@ abstract class AbstractPromoCode extends ActiveRecord implements RelationInterfa
      * @throws Exception
      * @throws \Throwable
      */
-    public function insertModel()
+    public function insertModel() : bool
     {
         $this->getFromForm();
         if (!$this->insert()){
@@ -209,7 +210,8 @@ abstract class AbstractPromoCode extends ActiveRecord implements RelationInterfa
 
     /**
      * необходима реализация метода на проекте
+     * @param IdentityInterface $user
      * @return bool
      */
-    abstract public function checkCode() : bool;
+    abstract public function checkCode(IdentityInterface $user) : bool;
 }
