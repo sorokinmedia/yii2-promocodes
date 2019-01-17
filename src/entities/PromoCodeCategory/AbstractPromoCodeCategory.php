@@ -146,7 +146,6 @@ abstract class AbstractPromoCodeCategory extends ActiveRecord implements Relatio
     /**
      * апдейт родительского элемента
      * @return bool
-     * @throws Exception
      */
     public function updateParent() : bool
     {
@@ -179,10 +178,10 @@ abstract class AbstractPromoCodeCategory extends ActiveRecord implements Relatio
      * статический конструктор
      * @param string $name
      * @param int|null $parent_id
-     * @return AbstractPromoCodeCategory
+     * @return PromoCodeCategoryInterface
      * @throws Exception
      */
-    public static function create(string $name, int $parent_id = 0) : self
+    public static function create(string $name, int $parent_id = 0) : PromoCodeCategoryInterface
     {
         $promo_category = static::findOne(['name' => $name]);
         if ($promo_category instanceof self){
