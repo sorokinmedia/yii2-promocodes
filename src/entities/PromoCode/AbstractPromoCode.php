@@ -217,13 +217,15 @@ abstract class AbstractPromoCode extends ActiveRecord implements RelationInterfa
 
     /**
      * необходима реализация метода на проекте
+     * @param IdentityInterface $user
      * @return int
      */
-    abstract public function afterRechargePayment() : int;
+    abstract public function afterRechargePayment(IdentityInterface $user) : int;
 
     /**
      * необходима реализация метода на проекте
+     * @param IdentityInterface $user
      * @return bool
      */
-    abstract public function afterRechargeBeneficiary() : bool;
+    abstract public function afterRechargeBeneficiary(IdentityInterface $user) : bool;
 }
