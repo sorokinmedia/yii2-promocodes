@@ -47,9 +47,10 @@ interface PromoCodeCategoryInterface
 
     /**
      * обновление родительского элемента
+     * @param int|null $old_parent_id
      * @return bool
      */
-    public function updateParent() : bool;
+    public function updateParent(int $old_parent_id = null) : bool;
 
     /**
      * обновление атрибута has_child

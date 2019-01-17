@@ -119,11 +119,12 @@ abstract class AbstractPromoCodeCategory extends ActiveRecord implements Relatio
      */
     public function updateModel() : bool
     {
-        $this->updateParent();
+        $old_parent_id = $this->parent_id;
         $this->getFromForm();
         if (!$this->save()){
             throw new Exception(\Yii::t('app', 'Ошибка при обновлении в БД'));
         }
+        $this->updateParent($old_parent_id);
         return true;
     }
 
@@ -145,16 +146,23 @@ abstract class AbstractPromoCodeCategory extends ActiveRecord implements Relatio
 
     /**
      * апдейт родительского элемента
+     * @param int|null $old_parent_id
      * @return bool
+     * @throws Exception
      */
-    public function updateParent() : bool
+    public function updateParent(int $old_parent_id = null) : bool
     {
         if ($this->parent_id !== null && $this->parent_id > 0 && $this->parent_id !== ''){
             return $this->parent->hasChildUpdate(1);
         }
-        $child_count = self::find()->where(['parent_id' => $this->parent_id])->count();
-        if ($child_count === 0){
-            return $this->parent->hasChildUpdate(0);
+        if ($old_parent_id !== null){
+            $child_count = self::find()->where(['parent_id' => $old_parent_id])->count();
+            if ($child_count === 0){
+                $parent = static::findOne($old_parent_id);
+                if ($parent !== null){
+                    return $parent->hasChildUpdate(0);
+                }
+            }
         }
         return true;
     }
