@@ -198,4 +198,18 @@ abstract class AbstractPromoCode extends ActiveRecord implements RelationInterfa
         $time = time();
         return ($this->date_from < $time && $this->date_to > $time);
     }
+
+    /**
+     * @return bool
+     */
+    public function isAvailableForOld() : bool
+    {
+        return $this->is_available_old === 1;
+    }
+
+    /**
+     * необходима реализация метода на проекте
+     * @return bool
+     */
+    abstract public function checkCode() : bool;
 }
