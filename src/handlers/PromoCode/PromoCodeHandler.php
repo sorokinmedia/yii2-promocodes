@@ -5,6 +5,7 @@ namespace sorokinmedia\promocodes\handlers\PromoCode;
 use sorokinmedia\promocodes\entities\PromoCode\AbstractPromoCode;
 use sorokinmedia\promocodes\handlers\PromoCode\interfaces\{Activate, Create, Delete, Update};
 use yii\db\Exception;
+use yii\web\IdentityInterface;
 
 /**
  * Class PromoCodeHandler
@@ -55,11 +56,13 @@ class PromoCodeHandler implements Create, Update, Delete, Activate
     }
 
     /**
+     * @param IdentityInterface $user
      * @return int
-     * @throws \Exception
+     * @throws Exception
+     * @throws \yii\web\ServerErrorHttpException
      */
-    public function activate(): int
+    public function activate(IdentityInterface $user): int
     {
-        return (new actions\Activate($this->promo_code))->execute();
+        return (new actions\Activate($this->promo_code, $user))->execute();
     }
 }

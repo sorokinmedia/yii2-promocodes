@@ -79,9 +79,11 @@ class PromoCodeLogTest extends TestCase
     public function testStaticCreate()
     {
         $this->initDb();
+        $this->initDbAdditional();
         $promo_code = PromoCode::findOne(1);
-        $user = User::findOne(1);
-        $log = PromoCodeLog::create($promo_code, $user, PromoCodeLog::STATUS_WAIT);
+        $user = User::findOne(2);
+        /** @var PromoCodeLog $log */
+        $log = PromoCodeLog::create($promo_code, $user);
         $this->assertInstanceOf(PromoCodeLog::class, $log);
         $this->assertEquals($user->id, $log->user_id);
         $this->assertEquals($promo_code->id, $log->promo_code_id);
@@ -99,6 +101,7 @@ class PromoCodeLogTest extends TestCase
         $this->initDb();
         $promo_code = PromoCode::findOne(1);
         $user = User::findOne(1);
+        /** @var PromoCodeLog $log */
         $log = PromoCodeLog::create($promo_code, $user, PromoCodeLog::STATUS_ACTIVATE);
         $this->assertInstanceOf(PromoCodeLog::class, $log);
         $this->assertEquals($user->id, $log->user_id);
@@ -112,12 +115,12 @@ class PromoCodeLogTest extends TestCase
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\db\Exception
      */
-    public function testActivate()
+    public function testSetActivated()
     {
         $this->initDb();
         $this->initDbAdditional();
         $log = PromoCodeLog::findOne(2);
-        $this->assertTrue($log->activate(2));
+        $this->assertTrue($log->setActivated(2));
         $log->refresh();
         $this->assertEquals(2, $log->operation_id);
         $this->assertEquals(PromoCodeLog::STATUS_ACTIVATE, $log->status_id);
@@ -128,13 +131,29 @@ class PromoCodeLogTest extends TestCase
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\db\Exception
      */
-    public function testOverdue()
+    public function testSetOverdue()
     {
         $this->initDb();
         $this->initDbAdditional();
         $log = PromoCodeLog::findOne(2);
-        $this->assertTrue($log->overdue());
+        $this->assertTrue($log->setOverdue());
         $log->refresh();
         $this->assertEquals(PromoCodeLog::STATUS_OVERDUE, $log->status_id);
+    }
+
+    /**
+     * @group promo-code-log
+     * @throws \Throwable
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\db\Exception
+     * @throws \yii\db\StaleObjectException
+     */
+    public function testDeleteModel()
+    {
+        $this->initDb();
+        $log = PromoCodeLog::findOne(1);
+        $log->deleteModel();
+        $deleted_log = PromoCodeLog::findOne(1);
+        $this->assertNull($deleted_log);
     }
 }

@@ -146,6 +146,7 @@ abstract class AbstractPromoCodeLog extends ActiveRecord implements RelationInte
         $promo_code_log = new static([
             'user_id' => $user->id,
             'promo_code_id' => $promoCode->id,
+            'status_id' => self::STATUS_WAIT
         ]);
         if (!$promo_code_log->insert()) {
             throw new Exception(\Yii::t('app', 'Ошибка при добавления лога в БД'));

@@ -238,6 +238,52 @@ class PromoCodeTest extends TestCase
         $this->initDb();
         $this->initDbAdditional();
         $promo_code = PromoCode::findOne(2);
-        $this->assertFalse($promo_code->isActive());
+        $this->assertFalse($promo_code->isAvailableForOld());
+    }
+
+    public function testIsAvailableForOld()
+    {
+        $this->initDb();
+        $this->initDbAdditional();
+        $promo_code = PromoCode::findOne(2);
+    }
+
+    /**
+     * @group promo-code
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\db\Exception
+     */
+    public function testCheckCode()
+    {
+        $this->initDb();
+        $promo_code = PromoCode::findOne(1);
+        $user = User::findOne(1);
+        $this->assertTrue($promo_code->checkCode($user));
+    }
+
+    /**
+     * @group promo-code
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\db\Exception
+     */
+    public function testCheckAfterRechargeBeneficiary()
+    {
+        $this->initDb();
+        $promo_code = PromoCode::findOne(1);
+        $user = User::findOne(1);
+        $this->assertTrue($promo_code->afterRechargeBeneficiary($user));
+    }
+
+    /**
+     * @group promo-code
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\db\Exception
+     */
+    public function testCheckAfterRechargePayment()
+    {
+        $this->initDb();
+        $promo_code = PromoCode::findOne(1);
+        $user = User::findOne(1);
+        $this->assertEquals(0, $promo_code->afterRechargePayment($user));
     }
 }
