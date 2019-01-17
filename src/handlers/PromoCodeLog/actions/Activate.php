@@ -12,12 +12,15 @@ class Activate extends AbstractAction
 {
     /**
      * @return bool
-     * @throws \yii\db\Exception
-     * @throws \yii\web\ServerErrorHttpException
+     * @throws \Exception
      */
     public function execute(): bool
     {
-        $operation_id = (new PromoCodeHandler($this->promo_code_log->promoCode))->activate($this->promo_code_log->user);
-        return $this->promo_code_log->setActivated($operation_id);
+        try{
+            $operation_id = (new PromoCodeHandler($this->promo_code_log->promoCode))->activate($this->promo_code_log->user);
+            return $this->promo_code_log->setActivated($operation_id);
+        } catch (\Exception $exception){
+            throw new \Exception(\Yii::t('app', 'Ошибка при активации промокода'));
+        }
     }
 }

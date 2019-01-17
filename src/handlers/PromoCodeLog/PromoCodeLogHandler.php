@@ -48,7 +48,7 @@ class PromoCodeLogHandler implements Delete, Overdue, Activate
 
     /**
      * @return bool
-     * @throws Exception
+     * @throws \Exception
      */
     public function activate(): bool
     {
