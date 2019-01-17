@@ -114,7 +114,7 @@ abstract class AbstractPromoCode extends ActiveRecord implements RelationInterfa
      */
     public function getOperations() : ActiveQuery
     {
-        return $this->hasMany($this->__operationClass, ['description' => 'title'])->andFilterWhere(['type_id' => $this->__operationClass::BILL_IN_PROMOCODE])->orderBy(['id' => SORT_DESC]);
+        return $this->hasMany($this->__operationClass, ['comment' => 'title'])->andFilterWhere(['type_id' => $this->__operationClass::BILL_IN_PROMOCODE])->orderBy(['id' => SORT_DESC]);
     }
 
     /**
