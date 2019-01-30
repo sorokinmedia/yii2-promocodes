@@ -25,6 +25,7 @@ use yii\web\IdentityInterface;
  * @property double $discount_fixed
  * @property int $discount_percentage
  * @property int $is_available_old
+ * @property int $is_deleted
  *
  * @property PromoCodeForm $form
  */
@@ -51,11 +52,11 @@ abstract class AbstractPromoCode extends ActiveRecord implements RelationInterfa
     {
         return [
             [['value', 'date_from', 'date_to', 'cat_id', 'type_id'], 'required'],
-            [['cat_id', 'type_id', 'creator_id', 'beneficiary_id', 'date_from', 'date_to', 'discount_percentage', 'is_available_old'], 'integer'],
+            [['cat_id', 'type_id', 'creator_id', 'beneficiary_id', 'date_from', 'date_to', 'discount_percentage', 'is_available_old', 'is_deleted'], 'integer'],
             [['sum_promo', 'sum_recharge', 'discount_fixed'], 'number'],
             [['value', 'title', 'description'], 'string', 'max' => 255],
             [['value'], 'match', 'pattern' => '/^[a-z_0-9]+$/'],
-            [['is_available_old'], 'default', 'value' => 0],
+            [['is_available_old', 'is_deleted'], 'default', 'value' => 0],
             [['date_from'], 'default', 'value' => time()],
         ];
     }
@@ -81,6 +82,7 @@ abstract class AbstractPromoCode extends ActiveRecord implements RelationInterfa
             'discount_fixed' => \Yii::t('app', 'Скидка в рублях'),
             'discount_percentage' => \Yii::t('app', 'Скидка в %'),
             'is_available_old' => \Yii::t('app', 'Доступен для старых пользователей'),
+            'is_deleted' => \Yii::t('app', 'Удален'),
         ];
     }
 
@@ -185,8 +187,8 @@ abstract class AbstractPromoCode extends ActiveRecord implements RelationInterfa
      */
     public function deleteModel() : bool
     {
-        //todo: удаление всех начислений и упоминаний
-        if (!$this->delete()) {
+        $this->is_deleted = 1;
+        if (!$this->save()) {
             throw new Exception(\Yii::t('app', 'Ошибка при удалении из БД'));
         }
         return true;
