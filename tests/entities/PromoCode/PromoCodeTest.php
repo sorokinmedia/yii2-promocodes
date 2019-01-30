@@ -38,6 +38,7 @@ class PromoCodeTest extends TestCase
                 'discount_fixed',
                 'discount_percentage',
                 'is_available_old',
+                'is_deleted'
             ],
             array_keys($promo_code->getAttributes())
         );
@@ -130,7 +131,7 @@ class PromoCodeTest extends TestCase
             'sum_recharge' => 4000,
             'discount_fixed' => 100,
             'discount_percentage' => 10,
-            'is_available_old' => 0
+            'is_available_old' => 0,
         ], $promo_code);
         $promo_code->form = $promo_code_form;
         $promo_code->insertModel();
@@ -178,7 +179,7 @@ class PromoCodeTest extends TestCase
             'sum_recharge' => 4000,
             'discount_fixed' => 100,
             'discount_percentage' => 10,
-            'is_available_old' => 0
+            'is_available_old' => 0,
         ], $promo_code);
         $promo_code->form = $promo_code_form;
         $promo_code->updateModel();
@@ -197,7 +198,7 @@ class PromoCodeTest extends TestCase
         $this->assertEquals(4000, $promo_code->sum_recharge);
         $this->assertEquals(100, $promo_code->discount_fixed);
         $this->assertEquals(10, $promo_code->discount_percentage);
-        $this->assertEquals(false, $promo_code->is_available_old);
+        $this->assertEquals(0, $promo_code->is_available_old);
     }
 
     /**
@@ -212,8 +213,8 @@ class PromoCodeTest extends TestCase
         /** @var PromoCode $promo_code */
         $promo_code = PromoCode::findOne(1);
         $promo_code->deleteModel();
-        $deleted_promo_code = PromoCode::findOne(1);
-        $this->assertNull($deleted_promo_code);
+        $promo_code->refresh();
+        $this->assertEquals(1, $promo_code->is_deleted);
     }
 
     /**
@@ -241,11 +242,29 @@ class PromoCodeTest extends TestCase
         $this->assertFalse($promo_code->isAvailableForOld());
     }
 
+    /**
+     * @group promo-code
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\db\Exception
+     */
+    public function testIsDeleted()
+    {
+        $this->initDb();
+        $promo_code = PromoCode::findOne(1);
+        $this->assertFalse($promo_code->isDeleted());
+    }
+
+    /**
+     * @group promo-code
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\db\Exception
+     */
     public function testIsAvailableForOld()
     {
         $this->initDb();
         $this->initDbAdditional();
         $promo_code = PromoCode::findOne(2);
+        $this->assertFalse($promo_code->isAvailableForOld());
     }
 
     /**

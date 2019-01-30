@@ -35,6 +35,7 @@ class CreatePromoCodeCategoryTest extends TestCase
         $this->assertInstanceOf(PromoCodeCategory::class, $category);
         $this->assertEquals('test_create', $category->name);
         $this->assertEquals(0, $category->parent_id);
-        $this->assertFalse($category->has_child);
+        $this->assertEquals(0, $category->has_child);
+        $this->assertEquals(0, $category->is_deleted);
     }
 }

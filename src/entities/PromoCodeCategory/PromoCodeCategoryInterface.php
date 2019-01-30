@@ -16,6 +16,12 @@ interface PromoCodeCategoryInterface
     public function getPromoCodes() : ActiveQuery;
 
     /**
+     * получить объекты промокодов, которые не удалены
+     * @return ActiveQuery
+     */
+    public function getNotDeletedPromoCodes() : ActiveQuery;
+
+    /**
      * получить родительскую категорию
      * @return ActiveQuery
      */

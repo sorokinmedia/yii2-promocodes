@@ -1,7 +1,6 @@
 <?php
 namespace sorokinmedia\promocodes\tests;
 
-use sorokinmedia\user\tests\entities\User\User;
 use yii\console\Application;
 use yii\db\Connection;
 use yii\db\Schema;
@@ -129,7 +128,8 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
             'sum_recharge' => Schema::TYPE_MONEY,
             'discount_fixed' => Schema::TYPE_MONEY,
             'discount_percentage' => Schema::TYPE_INTEGER,
-            'is_available_old' => Schema::TYPE_BOOLEAN
+            'is_available_old' => Schema::TYPE_TINYINT,
+            'is_deleted' => Schema::TYPE_TINYINT
         ])->execute();
 
         if ($db->getTableSchema('promo_code_category')){
@@ -139,7 +139,8 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
             'id' => Schema::TYPE_PK,
             'name' => Schema::TYPE_STRING . '(255) NOT NULL',
             'parent_id' => Schema::TYPE_INTEGER,
-            'has_child' => Schema::TYPE_BOOLEAN,
+            'has_child' => Schema::TYPE_TINYINT,
+            'is_deleted' => Schema::TYPE_TINYINT,
         ])->execute();
 
         if ($db->getTableSchema('promo_code_log')){
@@ -206,6 +207,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
             'name' => 'test_category',
             'parent_id' => 0,
             'has_child' => 0,
+            'is_deleted' => 0,
         ])->execute();
         $db->createCommand()->insert('promo_code', [
             'id' => 1,
@@ -222,7 +224,8 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
             'sum_recharge' => 2000,
             'discount_fixed' => null,
             'discount_percentage' => null,
-            'is_available_old' => 1
+            'is_available_old' => 1,
+            'is_deleted' => 0,
         ])->execute();
         $db->createCommand()->insert('promo_code_log', [
             'id' => 1,
@@ -265,6 +268,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
             'name' => 'test category parent',
             'parent_id' => 0,
             'has_child' => 1,
+            'is_deleted' => 0,
         ])->execute();
 
         $db->createCommand()->insert('promo_code_category', [
@@ -272,6 +276,7 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
             'name' => 'test category child',
             'parent_id' => 2,
             'has_child' => 0,
+            'is_deleted' => 0,
         ])->execute();
 
         $db->createCommand()->insert('promo_code', [
@@ -289,7 +294,8 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
             'sum_recharge' => 2000,
             'discount_fixed' => null,
             'discount_percentage' => null,
-            'is_available_old' => 0
+            'is_available_old' => 0,
+            'is_deleted' => 0,
         ])->execute();
         $db->createCommand()->insert('promo_code_log', [
             'id' => 2,

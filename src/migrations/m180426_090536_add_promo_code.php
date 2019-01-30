@@ -26,8 +26,8 @@ class m180426_090536_add_promo_code extends Migration
             'sum_recharge' => $this->money(19,4),
             'discount_fixed' => $this->money(19,4),
             'discount_percentage' => $this->integer(3),
-            'is_available_old' => $this->boolean(),
-            'is_deleted' => $this->boolean(),
+            'is_available_old' => $this->boolean()->defaultValue(false),
+            'is_deleted' => $this->boolean()->defaultValue(false),
         ]);
     }
 

@@ -28,6 +28,7 @@ class PromoCodeCategoryTest extends TestCase
                 'name',
                 'parent_id',
                 'has_child',
+                'is_deleted'
             ],
             array_keys($category->getAttributes())
         );
@@ -46,6 +47,8 @@ class PromoCodeCategoryTest extends TestCase
         $this->assertInstanceOf(PromoCodeCategory::class, $category);
         $this->assertInternalType('array', $category->getPromoCodes()->all());
         $this->assertInstanceOf(PromoCode::class, ($category->getPromoCodes()->all())[0]);
+        $this->assertInternalType('array', $category->getNotDeletedPromoCodes()->all());
+        $this->assertInstanceOf(PromoCode::class, ($category->getNotDeletedPromoCodes()->all())[0]);
 
         $category_with_parent = PromoCodeCategory::findOne(3);
         $this->assertInstanceOf(PromoCodeCategory::class, $category_with_parent);
@@ -95,6 +98,7 @@ class PromoCodeCategoryTest extends TestCase
         $this->assertEquals('test_create', $category->name);
         $this->assertEquals(0, $category->parent_id);
         $this->assertEquals(0, $category->has_child);
+        $this->assertEquals(0, $category->is_deleted);
     }
 
     /**
@@ -117,7 +121,8 @@ class PromoCodeCategoryTest extends TestCase
         $this->assertInstanceOf(PromoCodeCategory::class, $category);
         $this->assertEquals('test_create_child', $category->name);
         $this->assertEquals(1, $category->parent_id);
-        $this->assertFalse($category->has_child);
+        $this->assertEquals(0, $category->is_deleted);
+        $this->assertEquals(0, $category->has_child);
         $parent = PromoCodeCategory::findOne($category->parent_id);
         $this->assertEquals(true, $parent->has_child);
     }
@@ -154,8 +159,8 @@ class PromoCodeCategoryTest extends TestCase
         /** @var PromoCodeCategory $category */
         $category = PromoCodeCategory::findOne(1);
         $category->deleteModel();
-        $deleted_category = PromoCodeCategory::findOne(1);
-        $this->assertNull($deleted_category);
+        $category->refresh();
+        $this->assertEquals(1, $category->is_deleted);
     }
 
     /**

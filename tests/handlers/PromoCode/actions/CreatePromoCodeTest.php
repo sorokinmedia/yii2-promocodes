@@ -58,6 +58,7 @@ class CreatePromoCodeTest extends TestCase
         $this->assertEquals(4000, $promo_code->sum_recharge);
         $this->assertEquals(100, $promo_code->discount_fixed);
         $this->assertEquals(10, $promo_code->discount_percentage);
-        $this->assertEquals(false, $promo_code->is_available_old);
+        $this->assertEquals(0, $promo_code->is_available_old);
+        $this->assertEquals(0, $promo_code->is_deleted);
     }
 }

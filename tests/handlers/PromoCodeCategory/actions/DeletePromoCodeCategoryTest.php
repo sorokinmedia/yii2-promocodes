@@ -25,7 +25,7 @@ class DeletePromoCodeCategoryTest extends TestCase
         $category = PromoCodeCategory::findOne(1);
         $handler = new PromoCodeCategoryHandler($category);
         $this->assertTrue($handler->delete());
-        $deleted_category = PromoCodeCategory::findOne(1);
-        $this->assertNull($deleted_category);
+        $category->refresh();
+        $this->assertEquals(1, $category->is_deleted);
     }
 }

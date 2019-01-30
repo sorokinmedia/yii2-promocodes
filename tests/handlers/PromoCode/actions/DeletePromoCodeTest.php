@@ -25,7 +25,7 @@ class DeletePromoCodeTest extends TestCase
         $promo_code = PromoCode::findOne(1);
         $handler = new PromoCodeHandler($promo_code);
         $this->assertTrue($handler->delete());
-        $deleted_promo_code = PromoCode::findOne(1);
-        $this->assertNull($deleted_promo_code);
+        $promo_code->refresh();
+        $this->assertEquals(1, $promo_code->is_deleted);
     }
 }

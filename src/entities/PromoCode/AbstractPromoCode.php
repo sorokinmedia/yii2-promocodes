@@ -212,6 +212,14 @@ abstract class AbstractPromoCode extends ActiveRecord implements RelationInterfa
     }
 
     /**
+     * @return bool
+     */
+    public function isDeleted() : bool
+    {
+        return $this->is_deleted === 1;
+    }
+
+    /**
      * необходима реализация метода на проекте
      * @param IdentityInterface $user
      * @return bool

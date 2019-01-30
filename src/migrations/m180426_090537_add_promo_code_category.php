@@ -16,6 +16,7 @@ class m180426_090537_add_promo_code_category extends Migration
             'name' => $this->string(255),
             'parent_id' => $this->integer(),
             'has_child' => $this->boolean()->defaultValue(false),
+            'is_deleted' => $this->boolean()->defaultValue(false),
         ]);
     }
 

@@ -14,6 +14,7 @@ use sorokinmedia\ar_relations\RelationInterface;
  * @property string $name
  * @property int $parent_id
  * @property int $has_child
+ * @property int $is_deleted
  *
  * @property PromoCodeCategoryForm $form
  * @property int|string $level
@@ -39,8 +40,8 @@ abstract class AbstractPromoCodeCategory extends ActiveRecord implements Relatio
         return [
             [['name'], 'required'],
             [['name'], 'string', 'max' => 255],
-            [['parent_id', 'has_child'], 'integer'],
-            [['parent_id', 'has_child'], 'default', 'value' => 0],
+            [['parent_id', 'has_child', 'is_deleted'], 'integer'],
+            [['parent_id', 'has_child', 'is_deleted'], 'default', 'value' => 0],
         ];
     }
 
@@ -54,6 +55,7 @@ abstract class AbstractPromoCodeCategory extends ActiveRecord implements Relatio
             'name' => \Yii::t('app', 'Название'),
             'parent_id' => \Yii::t('app', 'Родитель'),
             'has_child' => \Yii::t('app', 'Есть дочерние'),
+            'is_deleted' => \Yii::t('app', 'Удален'),
         ];
     }
 
@@ -140,12 +142,11 @@ abstract class AbstractPromoCodeCategory extends ActiveRecord implements Relatio
      * @return bool
      * @throws Exception
      * @throws \Throwable
-     * @throws \yii\db\StaleObjectException
      */
     public function deleteModel() : bool
     {
-        //todo: удаление связанных сущностей и упоминаний
-        if (!$this->delete()){
+        $this->is_deleted = 1;
+        if (!$this->save()){
             throw new Exception(\Yii::t('app', 'Ошибка при удалении из БД'));
         }
         $this->updateParent();

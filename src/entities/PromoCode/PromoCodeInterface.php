@@ -65,6 +65,12 @@ interface PromoCodeInterface
     public function isActive() : bool;
 
     /**
+     * проверка удален промокод или нет
+     * @return bool
+     */
+    public function isDeleted() : bool;
+
+    /**
      * проверка на доступность старым пользователям
      * @return bool
      */
