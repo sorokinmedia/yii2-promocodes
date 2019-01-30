@@ -68,6 +68,14 @@ abstract class AbstractPromoCodeCategory extends ActiveRecord implements Relatio
     /**
      * @return ActiveQuery
      */
+    public function getNotDeletedPromoCodes() : ActiveQuery
+    {
+        return $this->hasMany($this->__promoCodeClass, ['cat_id' => 'id'])->andFilterWhere(['is_deleted' => 0]);
+    }
+
+    /**
+     * @return ActiveQuery
+     */
     public function getParent(): ActiveQuery
     {
         return $this->hasOne($this->__promoCodeCategoryClass, ['id' => 'parent_id']);
