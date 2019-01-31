@@ -3,7 +3,7 @@
 namespace sorokinmedia\promocodes\handlers\PromoCodeLog;
 
 use sorokinmedia\promocodes\entities\PromoCodeLog\AbstractPromoCodeLog;
-use sorokinmedia\promocodes\handlers\PromoCodeLog\interfaces\{Delete, Overdue, Activate};
+use sorokinmedia\promocodes\handlers\PromoCodeLog\interfaces\{ActivatePercentageDiscount, Delete, Overdue, Activate};
 use yii\db\Exception;
 
 /**
@@ -12,7 +12,7 @@ use yii\db\Exception;
  *
  * @property AbstractPromoCodeLog $promo_code_log
  */
-class PromoCodeLogHandler implements Delete, Overdue, Activate
+class PromoCodeLogHandler implements Delete, Overdue, Activate, ActivatePercentageDiscount
 {
     public $promo_code_log;
 
@@ -53,5 +53,15 @@ class PromoCodeLogHandler implements Delete, Overdue, Activate
     public function activate(): bool
     {
         return (new actions\Activate($this->promo_code_log))->execute();
+    }
+
+    /**
+     * @param int $operation_id
+     * @return bool
+     * @throws \Exception
+     */
+    public function activatePercentageDiscount(int $operation_id): bool
+    {
+        return (new actions\ActivePercentageDiscount($this->promo_code_log, $operation_id))->execute();
     }
 }
