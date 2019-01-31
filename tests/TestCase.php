@@ -306,5 +306,33 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
             'created_at' => 1514765000,
             'updated_at' => 1514765000
         ])->execute();
+
+        $db->createCommand()->insert('promo_code', [
+            'id' => 3,
+            'value' => 'test_promo_discount_percentage',
+            'title' => 'тестовый промокод с процентной скидкой',
+            'description' => 'тестовый промокод с процентной скидкой',
+            'cat_id' => 1,
+            'type_id' => 3,
+            'creator_id' => 1,
+            'beneficiary_id' => 1,
+            'date_from' => 1514764800,
+            'date_to' => 1517443200,
+            'sum_promo' => null,
+            'sum_recharge' => null,
+            'discount_fixed' => null,
+            'discount_percentage' => 10,
+            'is_available_old' => 0,
+            'is_deleted' => 0,
+        ])->execute();
+        $db->createCommand()->insert('promo_code_log', [
+            'id' => 3,
+            'user_id' => 1,
+            'promo_code_id' => 3,
+            'operation_id' => null,
+            'status_id' => 2,
+            'created_at' => 1514765000,
+            'updated_at' => 1514765000
+        ])->execute();
     }
 }
