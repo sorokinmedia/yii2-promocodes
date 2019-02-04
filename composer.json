@@ -17,7 +17,7 @@
     },
     "require": {
         "yiisoft/yii2": ">=2.0.6",
-        "sorokinmedia/yii2-ar-relations": "*",
+        "sorokinmedia/yii2-ar-relations": "dev-master",
         "sorokinmedia/yii2-helpers": "dev-master",
         "sorokinmedia/yii2-user": "dev-master",
         "sorokinmedia/yii2-treeview": "dev-master"
