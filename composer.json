@@ -37,8 +37,6 @@
             "sorokinmedia\\promocodes\\tests\\handlers\\": "tests/handlers"
         }
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
     "extra": {
         "asset-installer-paths": {
             "npm-asset-library": "vendor/npm",
