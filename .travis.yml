@@ -5,9 +5,6 @@ php:
 - 7.1
 - 7.2
 
-# faster builds on new travis setup not using sudo
-sudo: false
-
 # cache vendor dirs
 cache:
   directories:
@@ -16,17 +13,6 @@ cache:
 install:
 - travis_retry composer self-update && composer --version
 - travis_retry composer update --no-interaction
-# install php extensions
-- |
-  if (php --version | grep -i HipHop > /dev/null); then
-    echo "Skipping imagick and gmagick tests on HHVM"
-  else
-    pear config-set preferred_state beta
-    printf "\n" | pecl install imagick
-    # gmagick is not installed on travis currently
-    #printf "\n" | pecl install gmagick
-  fi
 
 script:
-- composer validate --strict
 - vendor/bin/phpunit
