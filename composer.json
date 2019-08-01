@@ -32,6 +32,7 @@
             "sorokinmedia\\promocodes\\entities\\": "src/entities/",
             "sorokinmedia\\promocodes\\forms\\": "src/forms/",
             "sorokinmedia\\promocodes\\handlers\\": "src/handlers/",
+            "sorokinmedia\\promocodes\\exceptions\\": "src/exceptions/",
             "sorokinmedia\\promocodes\\migrations\\": "src/migrations/",
             "sorokinmedia\\promocodes\\tests\\": "tests/",
             "sorokinmedia\\promocodes\\tests\\entities\\": "tests/entities",
