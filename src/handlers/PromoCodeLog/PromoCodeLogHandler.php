@@ -3,7 +3,12 @@
 namespace sorokinmedia\promocodes\handlers\PromoCodeLog;
 
 use sorokinmedia\promocodes\entities\PromoCodeLog\AbstractPromoCodeLog;
-use sorokinmedia\promocodes\handlers\PromoCodeLog\interfaces\{ActivatePercentageDiscount, Delete, Overdue, Activate};
+use sorokinmedia\promocodes\handlers\PromoCodeLog\interfaces\{Activate,
+    ActivateAfterRecharge,
+    ActivatePercentageDiscount,
+    Delete,
+    Overdue};
+use Throwable;
 use yii\db\Exception;
 
 /**
@@ -12,7 +17,7 @@ use yii\db\Exception;
  *
  * @property AbstractPromoCodeLog $promo_code_log
  */
-class PromoCodeLogHandler implements Delete, Overdue, Activate, ActivatePercentageDiscount
+class PromoCodeLogHandler implements Delete, Overdue, Activate, ActivatePercentageDiscount, ActivateAfterRecharge
 {
     public $promo_code_log;
 
@@ -29,7 +34,7 @@ class PromoCodeLogHandler implements Delete, Overdue, Activate, ActivatePercenta
     /**
      * @return bool
      * @throws Exception
-     * @throws \Throwable
+     * @throws Throwable
      */
     public function delete(): bool
     {
@@ -39,9 +44,9 @@ class PromoCodeLogHandler implements Delete, Overdue, Activate, ActivatePercenta
     /**
      * @return bool
      * @throws Exception
-     * @throws \Throwable
+     * @throws Throwable
      */
-    public function overdue() : bool
+    public function overdue(): bool
     {
         return (new actions\Overdue($this->promo_code_log))->execute();
     }
@@ -63,5 +68,15 @@ class PromoCodeLogHandler implements Delete, Overdue, Activate, ActivatePercenta
     public function activatePercentageDiscount(int $operation_id): bool
     {
         return (new actions\ActivePercentageDiscount($this->promo_code_log, $operation_id))->execute();
+    }
+
+    /**
+     * @param int $operation_id
+     * @return bool
+     * @throws \Exception
+     */
+    public function activateAfterRecharge(int $operation_id): bool
+    {
+        return (new actions\ActivateAfterRechage($this->promo_code_log, $operation_id))->execute();
     }
 }

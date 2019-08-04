@@ -7,12 +7,12 @@ use sorokinmedia\promocodes\entities\PromoCodeLog\AbstractPromoCodeLog;
 use Yii;
 
 /**
- * Class ActivePercentageDiscount
+ * Class ActivateAfterRechage
  * @package sorokinmedia\promocodes\handlers\PromoCodeLog\actions
  *
  * @property int $operation_id
  */
-class ActivePercentageDiscount extends AbstractAction
+class ActivateAfterRechage extends AbstractAction
 {
     public $operation_id;
 
