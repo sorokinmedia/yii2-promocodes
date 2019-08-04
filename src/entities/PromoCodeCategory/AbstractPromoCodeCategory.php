@@ -228,6 +228,7 @@ abstract class AbstractPromoCodeCategory extends ActiveRecord implements Relatio
                 'name', 'id'
             ])
             ->where(['parent_id' => 0])
+            ->andWhere(['is_deleted' => 0])
             ->indexBy('id')
             ->orderBy(['name' => SORT_ASC])
             ->column();
@@ -242,6 +243,7 @@ abstract class AbstractPromoCodeCategory extends ActiveRecord implements Relatio
     {
         return static::find()
             ->where(['parent_id' => $parent_id])
+            ->andWhere(['is_deleted' => 0])
             ->orderBy(['name' => SORT_ASC])
             ->all();
     }
