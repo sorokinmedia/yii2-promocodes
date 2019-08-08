@@ -10,10 +10,10 @@ use yii\base\InvalidConfigException;
 use yii\db\Exception;
 
 /**
- * Class ActivatePercentageDiscountPromoCodeLogTest
+ * Class ActivateAfterRechargeTest
  * @package sorokinmedia\promocodes\tests\handlers\PromoCodeLog\actions
  */
-class ActivatePercentageDiscountPromoCodeLogTest extends TestCase
+class ActivateAfterRechargeTest extends TestCase
 {
     /**
      * @group promo-code-log-handler
@@ -27,7 +27,7 @@ class ActivatePercentageDiscountPromoCodeLogTest extends TestCase
         $this->initDbAdditional();
         $promo_code_log = PromoCodeLog::findOne(3);
         $handler = new PromoCodeLogHandler($promo_code_log);
-        $this->assertTrue($handler->activatePercentageDiscount(15));
+        $this->assertTrue($handler->activateAfterRecharge(15));
         $promo_code_log->refresh();
         $this->assertEquals(15, $promo_code_log->operation_id);
         $this->assertEquals(PromoCodeLog::STATUS_ACTIVATED, $promo_code_log->status_id);

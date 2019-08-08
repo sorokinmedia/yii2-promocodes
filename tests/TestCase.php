@@ -154,6 +154,8 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
             'status_id' => Schema::TYPE_INTEGER,
             'created_at' => Schema::TYPE_INTEGER,
             'updated_at' => Schema::TYPE_INTEGER,
+            'activated_at' => Schema::TYPE_INTEGER,
+            'deactivated_at' => Schema::TYPE_INTEGER
         ])->execute();
 
         $this->initDefaultData();
@@ -234,7 +236,9 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
             'operation_id' => 1,
             'status_id' => 1,
             'created_at' => 1514765000,
-            'updated_at' => 1514765000
+            'updated_at' => 1514765000,
+            'activated_at' => null,
+            'deactivated_at' => null
         ])->execute();
     }
 
@@ -304,7 +308,9 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
             'operation_id' => null,
             'status_id' => 2,
             'created_at' => 1514765000,
-            'updated_at' => 1514765000
+            'updated_at' => 1514765000,
+            'activated_at' => null,
+            'deactivated_at' => null
         ])->execute();
 
         $db->createCommand()->insert('promo_code', [
@@ -332,7 +338,9 @@ abstract class TestCase extends \PHPUnit_Framework_TestCase
             'operation_id' => null,
             'status_id' => 2,
             'created_at' => 1514765000,
-            'updated_at' => 1514765000
+            'updated_at' => 1514765000,
+            'activated_at' => null,
+            'deactivated_at' => null
         ])->execute();
     }
 }

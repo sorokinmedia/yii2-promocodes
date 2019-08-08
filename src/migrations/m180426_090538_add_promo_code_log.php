@@ -18,7 +18,9 @@ class m180426_090538_add_promo_code_log extends Migration
             'operation_id' => $this->integer(),
             'status_id' => $this->integer(),
             'created_at' => $this->integer(),
-            'updated_at' => $this->integer()
+            'updated_at' => $this->integer(),
+            'activated_at' => $this->integer(),
+            'deactivated_at' => $this->integer()
         ]);
     }
 

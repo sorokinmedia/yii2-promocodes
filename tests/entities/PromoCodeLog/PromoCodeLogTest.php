@@ -5,6 +5,10 @@ namespace sorokinmedia\promocodes\tests\entities\PromoCodeLog;
 use sorokinmedia\promocodes\tests\entities\PromoCode\PromoCode;
 use sorokinmedia\promocodes\tests\entities\User\User;
 use sorokinmedia\promocodes\tests\TestCase;
+use Throwable;
+use yii\base\InvalidConfigException;
+use yii\db\Exception;
+use yii\db\StaleObjectException;
 
 /**
  * Class PromoCodeLogTest
@@ -14,8 +18,8 @@ class PromoCodeLogTest extends TestCase
 {
     /**
      * @group promo-code-log
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\db\Exception
+     * @throws InvalidConfigException
+     * @throws Exception
      */
     public function testFields()
     {
@@ -29,7 +33,9 @@ class PromoCodeLogTest extends TestCase
                 'operation_id',
                 'status_id',
                 'created_at',
-                'updated_at'
+                'updated_at',
+                'activated_at',
+                'deactivated_at'
             ],
             array_keys($log->getAttributes())
         );
@@ -37,8 +43,8 @@ class PromoCodeLogTest extends TestCase
 
     /**
      * @group promo-code-log
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\db\Exception
+     * @throws InvalidConfigException
+     * @throws Exception
      */
     public function testRelations()
     {
@@ -56,13 +62,13 @@ class PromoCodeLogTest extends TestCase
     public function testGetStatuses()
     {
         $this->assertInternalType('array', PromoCodeLog::getStatuses());
-        $this->assertCount(4, PromoCodeLog::getStatuses());
+        $this->assertCount(5, PromoCodeLog::getStatuses());
     }
 
     /**
      * @group promo-code-log
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\db\Exception
+     * @throws InvalidConfigException
+     * @throws Exception
      */
     public function testGetStatusLabel()
     {
@@ -73,8 +79,8 @@ class PromoCodeLogTest extends TestCase
 
     /**
      * @group promo-code-log
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\db\Exception
+     * @throws InvalidConfigException
+     * @throws Exception
      */
     public function testStaticCreate()
     {
@@ -93,8 +99,8 @@ class PromoCodeLogTest extends TestCase
 
     /**
      * @group promo-code-log
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\db\Exception
+     * @throws InvalidConfigException
+     * @throws Exception
      */
     public function testStaticCreateExisted()
     {
@@ -102,18 +108,18 @@ class PromoCodeLogTest extends TestCase
         $promo_code = PromoCode::findOne(1);
         $user = User::findOne(1);
         /** @var PromoCodeLog $log */
-        $log = PromoCodeLog::create($promo_code, $user, PromoCodeLog::STATUS_ACTIVATE);
+        $log = PromoCodeLog::create($promo_code, $user, PromoCodeLog::STATUS_ACTIVATED);
         $this->assertInstanceOf(PromoCodeLog::class, $log);
         $this->assertEquals($user->id, $log->user_id);
         $this->assertEquals($promo_code->id, $log->promo_code_id);
-        $this->assertEquals(PromoCodeLog::STATUS_ACTIVATE, $log->status_id);
+        $this->assertEquals(PromoCodeLog::STATUS_ACTIVATED, $log->status_id);
         $this->assertEquals(1, $log->operation_id);
     }
 
     /**
      * @group promo-code-log
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\db\Exception
+     * @throws InvalidConfigException
+     * @throws Exception
      */
     public function testSetActivated()
     {
@@ -123,13 +129,29 @@ class PromoCodeLogTest extends TestCase
         $this->assertTrue($log->setActivated(2));
         $log->refresh();
         $this->assertEquals(2, $log->operation_id);
-        $this->assertEquals(PromoCodeLog::STATUS_ACTIVATE, $log->status_id);
+        $this->assertEquals(PromoCodeLog::STATUS_ACTIVATED, $log->status_id);
     }
 
     /**
      * @group promo-code-log
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\db\Exception
+     * @throws InvalidConfigException
+     * @throws Exception
+     */
+    public function testSetDeactivated()
+    {
+        $this->initDb();
+        $this->initDbAdditional();
+        $log = PromoCodeLog::findOne(2);
+        $this->assertTrue($log->setDeactivated(2));
+        $log->refresh();
+        $this->assertEquals(2, $log->operation_id);
+        $this->assertEquals(PromoCodeLog::STATUS_DEACTIVATED, $log->status_id);
+    }
+
+    /**
+     * @group promo-code-log
+     * @throws InvalidConfigException
+     * @throws Exception
      */
     public function testSetOverdue()
     {
@@ -143,10 +165,10 @@ class PromoCodeLogTest extends TestCase
 
     /**
      * @group promo-code-log
-     * @throws \Throwable
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\db\Exception
-     * @throws \yii\db\StaleObjectException
+     * @throws Throwable
+     * @throws InvalidConfigException
+     * @throws Exception
+     * @throws StaleObjectException
      */
     public function testDeleteModel()
     {

@@ -6,6 +6,7 @@ use sorokinmedia\promocodes\entities\PromoCodeLog\AbstractPromoCodeLog;
 use sorokinmedia\promocodes\handlers\PromoCodeLog\interfaces\{Activate,
     ActivateAfterRecharge,
     ActivatePercentageDiscount,
+    Deactivate,
     Delete,
     Overdue};
 use Throwable;
@@ -17,7 +18,7 @@ use yii\db\Exception;
  *
  * @property AbstractPromoCodeLog $promo_code_log
  */
-class PromoCodeLogHandler implements Delete, Overdue, Activate, ActivatePercentageDiscount, ActivateAfterRecharge
+class PromoCodeLogHandler implements Delete, Overdue, Activate, ActivatePercentageDiscount, ActivateAfterRecharge, Deactivate
 {
     public $promo_code_log;
 
@@ -78,5 +79,15 @@ class PromoCodeLogHandler implements Delete, Overdue, Activate, ActivatePercenta
     public function activateAfterRecharge(int $operation_id): bool
     {
         return (new actions\ActivateAfterRechage($this->promo_code_log, $operation_id))->execute();
+    }
+
+    /**
+     * @param int $operation_id
+     * @return bool
+     * @throws \Exception
+     */
+    public function deactivate(int $operation_id): bool
+    {
+        return (new actions\Deactivate($this->promo_code_log, $operation_id))->execute();
     }
 }
