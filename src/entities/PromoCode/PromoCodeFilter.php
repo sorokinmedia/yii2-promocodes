@@ -1,4 +1,5 @@
 <?php
+
 namespace sorokinmedia\promocodes\entities\PromoCode;
 
 /**
@@ -18,12 +19,12 @@ class PromoCodeFilter
      * @param string $order_by
      * @return PromoCodeFilter
      */
-    public function addInFilter(string $order = '', string $order_by = '') : self
+    public function addInFilter(string $order = '', string $order_by = ''): self
     {
-        if ($order_by !== ''){
+        if ($order_by !== '') {
             $this->order_by = $order_by;
         }
-        if ($order !== ''){
+        if ($order !== '') {
             $this->order = $order;
         }
         return $this;

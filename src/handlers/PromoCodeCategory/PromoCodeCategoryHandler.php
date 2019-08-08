@@ -4,6 +4,7 @@ namespace sorokinmedia\promocodes\handlers\PromoCodeCategory;
 
 use sorokinmedia\promocodes\entities\PromoCodeCategory\AbstractPromoCodeCategory;
 use sorokinmedia\promocodes\handlers\PromoCodeCategory\interfaces\{Create, Delete, Update};
+use Throwable;
 use yii\db\Exception;
 
 /**
@@ -28,7 +29,7 @@ class PromoCodeCategoryHandler implements Create, Update, Delete
 
     /**
      * @return bool
-     * @throws \Throwable
+     * @throws Throwable
      * @throws Exception
      */
     public function create(): bool
@@ -47,7 +48,7 @@ class PromoCodeCategoryHandler implements Create, Update, Delete
 
     /**
      * @return bool
-     * @throws \Throwable
+     * @throws Throwable
      */
     public function delete(): bool
     {

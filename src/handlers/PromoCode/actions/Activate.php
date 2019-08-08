@@ -29,7 +29,6 @@ class Activate extends AbstractAction
 
     /**
      * @return int
-     * @throws Exception
      * @throws ServerErrorHttpException
      */
     public function execute() : int

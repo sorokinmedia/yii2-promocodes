@@ -1,9 +1,12 @@
 <?php
+
 namespace sorokinmedia\promocodes\entities\PromoCode;
 
 use sorokinmedia\ar_relations\RelationInterface;
 use sorokinmedia\promocodes\forms\PromoCodeForm;
 use yii\db\{ActiveQuery, ActiveRecord, Exception};
+use Throwable;
+use Yii;
 use yii\web\IdentityInterface;
 
 /**
@@ -31,16 +34,28 @@ use yii\web\IdentityInterface;
  */
 abstract class AbstractPromoCode extends ActiveRecord implements RelationInterface, PromoCodeInterface
 {
+    public const TYPE_AFTER_RECHARGE = 1;
+    public const TYPE_PRODUCT_DISCOUNT_FIXED = 2;
+    public const TYPE_PRODUCT_DISCOUNT_PERCENTAGE = 3;
     public $form;
 
-    const TYPE_AFTER_RECHARGE = 1;
-    const TYPE_PRODUCT_DISCOUNT_FIXED = 2;
-    const TYPE_PRODUCT_DISCOUNT_PERCENTAGE = 3;
+    /**
+     * AbstractPromoCode constructor.
+     * @param array $config
+     * @param PromoCodeForm|null $form
+     */
+    public function __construct(array $config = [], PromoCodeForm $form = null)
+    {
+        if ($form !== null) {
+            $this->form = $form;
+        }
+        parent::__construct($config);
+    }
 
     /**
      * @return string
      */
-    public static function tableName() : string
+    public static function tableName(): string
     {
         return 'promo_code';
     }
@@ -48,7 +63,7 @@ abstract class AbstractPromoCode extends ActiveRecord implements RelationInterfa
     /**
      * @return array
      */
-    public function rules() : array
+    public function rules(): array
     {
         return [
             [['value', 'date_from', 'date_to', 'cat_id', 'type_id'], 'required'],
@@ -64,32 +79,32 @@ abstract class AbstractPromoCode extends ActiveRecord implements RelationInterfa
     /**
      * @return array
      */
-    public function attributeLabels() : array
+    public function attributeLabels(): array
     {
         return [
-            'id' => \Yii::t('app', 'ID'),
-            'value' => \Yii::t('app', 'Промокод'),
-            'title' => \Yii::t('app', 'Название'),
-            'description' => \Yii::t('app', 'Описание'),
-            'cat_id' => \Yii::t('app', 'Категория'),
-            'type_id' => \Yii::t('app', 'Тип'),
-            'creator_id' => \Yii::t('app', 'Добавил'),
-            'beneficiary_id' => \Yii::t('app', 'Бенефициар'),
-            'date_from' => \Yii::t('app', 'Начало действия'),
-            'date_to' => \Yii::t('app', 'Окончание действия'),
-            'sum_promo' => \Yii::t('app', 'Сумма промо'),
-            'sum_recharge' => \Yii::t('app', 'Сумма для активации'),
-            'discount_fixed' => \Yii::t('app', 'Скидка в рублях'),
-            'discount_percentage' => \Yii::t('app', 'Скидка в %'),
-            'is_available_old' => \Yii::t('app', 'Доступен для старых пользователей'),
-            'is_deleted' => \Yii::t('app', 'Удален'),
+            'id' => Yii::t('app', 'ID'),
+            'value' => Yii::t('app', 'Промокод'),
+            'title' => Yii::t('app', 'Название'),
+            'description' => Yii::t('app', 'Описание'),
+            'cat_id' => Yii::t('app', 'Категория'),
+            'type_id' => Yii::t('app', 'Тип'),
+            'creator_id' => Yii::t('app', 'Добавил'),
+            'beneficiary_id' => Yii::t('app', 'Бенефициар'),
+            'date_from' => Yii::t('app', 'Начало действия'),
+            'date_to' => Yii::t('app', 'Окончание действия'),
+            'sum_promo' => Yii::t('app', 'Сумма промо'),
+            'sum_recharge' => Yii::t('app', 'Сумма для активации'),
+            'discount_fixed' => Yii::t('app', 'Скидка в рублях'),
+            'discount_percentage' => Yii::t('app', 'Скидка в %'),
+            'is_available_old' => Yii::t('app', 'Доступен для старых пользователей'),
+            'is_deleted' => Yii::t('app', 'Удален'),
         ];
     }
 
     /**
      * @return ActiveQuery
      */
-    public function getCategory() : ActiveQuery
+    public function getCategory(): ActiveQuery
     {
         return $this->hasOne($this->__promoCodeCategoryClass, ['id' => 'cat_id']);
     }
@@ -97,7 +112,7 @@ abstract class AbstractPromoCode extends ActiveRecord implements RelationInterfa
     /**
      * @return ActiveQuery
      */
-    public function getCreator() : ActiveQuery
+    public function getCreator(): ActiveQuery
     {
         return $this->hasOne($this->__userClass, ['id' => 'creator_id']);
     }
@@ -105,7 +120,7 @@ abstract class AbstractPromoCode extends ActiveRecord implements RelationInterfa
     /**
      * @return ActiveQuery
      */
-    public function getBeneficiary() : ActiveQuery
+    public function getBeneficiary(): ActiveQuery
     {
         return $this->hasOne($this->__userClass, ['id' => 'beneficiary_id']);
     }
@@ -114,22 +129,23 @@ abstract class AbstractPromoCode extends ActiveRecord implements RelationInterfa
      * //todo: need test with billing extension
      * @return ActiveQuery
      */
-    public function getOperations() : ActiveQuery
+    public function getOperations(): ActiveQuery
     {
         return $this->hasMany($this->__operationClass, ['comment' => 'title'])->andFilterWhere(['type_id' => $this->__operationClass::BILL_IN_PROMOCODE])->orderBy(['id' => SORT_DESC]);
     }
 
     /**
-     * AbstractPromoCode constructor.
-     * @param array $config
-     * @param PromoCodeForm|null $form
+     * @return bool
+     * @throws Exception
+     * @throws Throwable
      */
-    public function __construct(array $config = [], PromoCodeForm $form = null)
+    public function insertModel(): bool
     {
-        if ($form !== null){
-            $this->form = $form;
+        $this->getFromForm();
+        if (!$this->insert()) {
+            throw new Exception(Yii::t('app', 'Ошибка при добавлении в БД'));
         }
-        parent::__construct($config);
+        return true;
     }
 
     /**
@@ -156,26 +172,12 @@ abstract class AbstractPromoCode extends ActiveRecord implements RelationInterfa
     /**
      * @return bool
      * @throws Exception
-     * @throws \Throwable
      */
-    public function insertModel() : bool
-    {
-        $this->getFromForm();
-        if (!$this->insert()){
-            throw new Exception(\Yii::t('app', 'Ошибка при добавлении в БД'));
-        }
-        return true;
-    }
-
-    /**
-     * @return bool
-     * @throws Exception
-     */
-    public function updateModel() : bool
+    public function updateModel(): bool
     {
         $this->getFromForm();
         if (!$this->save()) {
-            throw new Exception(\Yii::t('app', 'Ошибка при обновлении в БД'));
+            throw new Exception(Yii::t('app', 'Ошибка при обновлении в БД'));
         }
         return true;
     }
@@ -183,13 +185,13 @@ abstract class AbstractPromoCode extends ActiveRecord implements RelationInterfa
     /**
      * @return bool
      * @throws \Exception
-     * @throws \Throwable
+     * @throws Throwable
      */
-    public function deleteModel() : bool
+    public function deleteModel(): bool
     {
         $this->is_deleted = 1;
         if (!$this->save()) {
-            throw new Exception(\Yii::t('app', 'Ошибка при удалении из БД'));
+            throw new Exception(Yii::t('app', 'Ошибка при удалении из БД'));
         }
         return true;
     }
@@ -197,7 +199,7 @@ abstract class AbstractPromoCode extends ActiveRecord implements RelationInterfa
     /**
      * @return bool
      */
-    public function isActive() : bool
+    public function isActive(): bool
     {
         $time = time();
         return ($this->date_from < $time && $this->date_to > $time);
@@ -206,7 +208,7 @@ abstract class AbstractPromoCode extends ActiveRecord implements RelationInterfa
     /**
      * @return bool
      */
-    public function isAvailableForOld() : bool
+    public function isAvailableForOld(): bool
     {
         return $this->is_available_old === 1;
     }
@@ -214,7 +216,7 @@ abstract class AbstractPromoCode extends ActiveRecord implements RelationInterfa
     /**
      * @return bool
      */
-    public function isDeleted() : bool
+    public function isDeleted(): bool
     {
         return $this->is_deleted === 1;
     }
@@ -224,19 +226,19 @@ abstract class AbstractPromoCode extends ActiveRecord implements RelationInterfa
      * @param IdentityInterface $user
      * @return bool
      */
-    abstract public function checkCode(IdentityInterface $user) : bool;
+    abstract public function checkCode(IdentityInterface $user): bool;
 
     /**
      * необходима реализация метода на проекте
      * @param IdentityInterface $user
      * @return int
      */
-    abstract public function afterRechargePayment(IdentityInterface $user) : int;
+    abstract public function afterRechargePayment(IdentityInterface $user): int;
 
     /**
      * необходима реализация метода на проекте
      * @param IdentityInterface $user
      * @return bool
      */
-    abstract public function afterRechargeBeneficiary(IdentityInterface $user) : bool;
+    abstract public function afterRechargeBeneficiary(IdentityInterface $user): bool;
 }

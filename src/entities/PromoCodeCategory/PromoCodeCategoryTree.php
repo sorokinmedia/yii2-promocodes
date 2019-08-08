@@ -1,4 +1,5 @@
 <?php
+
 namespace sorokinmedia\promocodes\entities\PromoCodeCategory;
 
 use sorokinmedia\treeview\AbstractTreeView;

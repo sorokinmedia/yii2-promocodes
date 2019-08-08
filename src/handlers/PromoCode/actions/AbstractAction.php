@@ -1,4 +1,5 @@
 <?php
+
 namespace sorokinmedia\promocodes\handlers\PromoCode\actions;
 
 use sorokinmedia\promocodes\entities\PromoCode\AbstractPromoCode;

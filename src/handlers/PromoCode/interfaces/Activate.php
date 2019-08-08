@@ -1,4 +1,5 @@
 <?php
+
 namespace sorokinmedia\promocodes\handlers\PromoCode\interfaces;
 
 use yii\web\IdentityInterface;
@@ -13,5 +14,5 @@ interface Activate
      * @param IdentityInterface $user
      * @return int
      */
-    public function activate(IdentityInterface $user) : int;
+    public function activate(IdentityInterface $user): int;
 }

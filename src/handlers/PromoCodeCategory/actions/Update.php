@@ -1,5 +1,8 @@
 <?php
+
 namespace sorokinmedia\promocodes\handlers\PromoCodeCategory\actions;
+
+use yii\db\Exception;
 
 /**
  * Class Update
@@ -9,9 +12,9 @@ class Update extends AbstractAction
 {
     /**
      * @return bool
-     * @throws \yii\db\Exception
+     * @throws Exception
      */
-    public function execute() : bool
+    public function execute(): bool
     {
         return $this->promo_code_category->updateModel();
     }

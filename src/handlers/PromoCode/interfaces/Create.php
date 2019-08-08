@@ -1,4 +1,5 @@
 <?php
+
 namespace sorokinmedia\promocodes\handlers\PromoCode\interfaces;
 
 /**
@@ -10,5 +11,5 @@ interface Create
     /**
      * @return bool
      */
-    public function create() : bool;
+    public function create(): bool;
 }

@@ -1,7 +1,9 @@
 <?php
+
 namespace sorokinmedia\promocodes\forms;
 
 use sorokinmedia\promocodes\entities\PromoCodeCategory\AbstractPromoCodeCategory;
+use Yii;
 use yii\base\Model;
 
 /**
@@ -15,6 +17,20 @@ class PromoCodeCategoryForm extends Model
 {
     public $name;
     public $parent_id;
+
+    /**
+     * PromoCodeCategoryForm constructor.
+     * @param array $config
+     * @param AbstractPromoCodeCategory|null $promoCodeCategory
+     */
+    public function __construct(array $config = [], AbstractPromoCodeCategory $promoCodeCategory = null)
+    {
+        if ($promoCodeCategory !== null) {
+            $this->name = $promoCodeCategory->name;
+            $this->parent_id = $promoCodeCategory->parent_id;
+        }
+        parent::__construct($config);
+    }
 
     /**
      * @return array
@@ -35,22 +51,8 @@ class PromoCodeCategoryForm extends Model
     public function attributeLabels(): array
     {
         return [
-            'name' => \Yii::t('app', 'Название'),
-            'parent_id' => \Yii::t('app', 'Родитель'),
+            'name' => Yii::t('app', 'Название'),
+            'parent_id' => Yii::t('app', 'Родитель'),
         ];
-    }
-
-    /**
-     * PromoCodeCategoryForm constructor.
-     * @param array $config
-     * @param AbstractPromoCodeCategory|null $promoCodeCategory
-     */
-    public function __construct(array $config = [], AbstractPromoCodeCategory $promoCodeCategory = null)
-    {
-        if ($promoCodeCategory !== null){
-            $this->name = $promoCodeCategory->name;
-            $this->parent_id = $promoCodeCategory->parent_id;
-        }
-        parent::__construct($config);
     }
 }

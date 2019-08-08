@@ -1,7 +1,9 @@
 <?php
+
 namespace sorokinmedia\promocodes\forms;
 
 use sorokinmedia\promocodes\entities\PromoCode\AbstractPromoCode;
+use Yii;
 use yii\base\Model;
 
 /**
@@ -41,52 +43,13 @@ class PromoCodeForm extends Model
     public $is_available_old;
 
     /**
-     * @return array
-     */
-    public function rules() : array
-    {
-        return [
-            [['value', 'date_from', 'date_to', 'cat_id', 'type_id'], 'required'],
-            [['cat_id', 'type_id', 'creator_id', 'beneficiary_id', 'date_from', 'date_to', 'discount_percentage', 'is_available_old'], 'integer'],
-            [['sum_promo', 'sum_recharge', 'discount_fixed'], 'number'],
-            [['value', 'title', 'description'], 'string', 'max' => 255],
-            [['value'], 'match', 'pattern' => '/^[a-z_0-9]+$/'],
-            [['is_available_old'], 'default', 'value' => 0],
-            [['date_from'], 'default', 'value' => time()],
-        ];
-    }
-
-    /**
-     * @return array
-     */
-    public function attributeLabels() : array
-    {
-        return [
-            'value' => \Yii::t('app', 'Промокод'),
-            'title' => \Yii::t('app', 'Название'),
-            'description' => \Yii::t('app', 'Описание'),
-            'cat_id' => \Yii::t('app', 'Категория'),
-            'type_id' => \Yii::t('app', 'Тип'),
-            'creator_id' => \Yii::t('app', 'Добавил'),
-            'beneficiary_id' => \Yii::t('app', 'Бенефициар'),
-            'date_from' => \Yii::t('app', 'Начало действия'),
-            'date_to' => \Yii::t('app', 'Окончание действия'),
-            'sum_promo' => \Yii::t('app', 'Сумма промо'),
-            'sum_recharge' => \Yii::t('app', 'Сумма для активации'),
-            'discount_fixed' => \Yii::t('app', 'Скидка в рублях'),
-            'discount_percentage' => \Yii::t('app', 'Скидка в %'),
-            'is_available_old' => \Yii::t('app', 'Доступен для старых пользователей'),
-        ];
-    }
-
-    /**
      * PromoCodeForm constructor.
      * @param array $config
      * @param AbstractPromoCode|null $promoCode
      */
     public function __construct(array $config = [], AbstractPromoCode $promoCode = null)
     {
-        if ($promoCode !== null){
+        if ($promoCode !== null) {
             $this->value = mb_strtolower($promoCode->value);
             $this->title = $promoCode->title;
             $this->description = $promoCode->description;
@@ -103,5 +66,44 @@ class PromoCodeForm extends Model
             $this->is_available_old = $promoCode->is_available_old;
         }
         parent::__construct($config);
+    }
+
+    /**
+     * @return array
+     */
+    public function rules(): array
+    {
+        return [
+            [['value', 'date_from', 'date_to', 'cat_id', 'type_id'], 'required'],
+            [['cat_id', 'type_id', 'creator_id', 'beneficiary_id', 'date_from', 'date_to', 'discount_percentage', 'is_available_old'], 'integer'],
+            [['sum_promo', 'sum_recharge', 'discount_fixed'], 'number'],
+            [['value', 'title', 'description'], 'string', 'max' => 255],
+            [['value'], 'match', 'pattern' => '/^[a-z_0-9]+$/'],
+            [['is_available_old'], 'default', 'value' => 0],
+            [['date_from'], 'default', 'value' => time()],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    public function attributeLabels(): array
+    {
+        return [
+            'value' => Yii::t('app', 'Промокод'),
+            'title' => Yii::t('app', 'Название'),
+            'description' => Yii::t('app', 'Описание'),
+            'cat_id' => Yii::t('app', 'Категория'),
+            'type_id' => Yii::t('app', 'Тип'),
+            'creator_id' => Yii::t('app', 'Добавил'),
+            'beneficiary_id' => Yii::t('app', 'Бенефициар'),
+            'date_from' => Yii::t('app', 'Начало действия'),
+            'date_to' => Yii::t('app', 'Окончание действия'),
+            'sum_promo' => Yii::t('app', 'Сумма промо'),
+            'sum_recharge' => Yii::t('app', 'Сумма для активации'),
+            'discount_fixed' => Yii::t('app', 'Скидка в рублях'),
+            'discount_percentage' => Yii::t('app', 'Скидка в %'),
+            'is_available_old' => Yii::t('app', 'Доступен для старых пользователей'),
+        ];
     }
 }

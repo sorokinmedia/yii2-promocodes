@@ -78,7 +78,7 @@ class PromoCodeLogHandler implements Delete, Overdue, Activate, ActivatePercenta
      */
     public function activateAfterRecharge(int $operation_id): bool
     {
-        return (new actions\ActivateAfterRechage($this->promo_code_log, $operation_id))->execute();
+        return (new actions\ActivateAfterRecharge($this->promo_code_log, $operation_id))->execute();
     }
 
     /**
