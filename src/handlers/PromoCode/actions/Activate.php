@@ -38,6 +38,7 @@ class Activate extends AbstractAction
         try{
             $this->promo_code->afterRechargeBeneficiary($this->promo_code->beneficiary);
             $operation_id = $this->promo_code->afterRechargePayment($this->user);
+            $this->promo_code->notifyAfterActivation($this->user);
             $transaction->commit();
             return $operation_id;
         } catch (\Exception $e) {
