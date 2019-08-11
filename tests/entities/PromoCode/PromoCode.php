@@ -32,4 +32,14 @@ class PromoCode extends AbstractPromoCode
     {
         return true;
     }
+
+    public function afterDeactivationBeneficiary(IdentityInterface $user): bool
+    {
+        return true;
+    }
+
+    public function afterDeactivationOperation(IdentityInterface $user): int
+    {
+        return 0;
+    }
 }

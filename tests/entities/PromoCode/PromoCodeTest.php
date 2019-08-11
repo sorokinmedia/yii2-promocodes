@@ -5,6 +5,9 @@ namespace sorokinmedia\promocodes\tests\entities\PromoCode;
 use sorokinmedia\promocodes\forms\PromoCodeForm;
 use sorokinmedia\promocodes\tests\entities\{PromoCodeCategory\PromoCodeCategory, User\User};
 use sorokinmedia\promocodes\tests\TestCase;
+use Throwable;
+use yii\base\InvalidConfigException;
+use yii\db\Exception;
 
 /**
  * Class PromoCodeCategoryTest
@@ -14,8 +17,8 @@ class PromoCodeTest extends TestCase
 {
     /**
      * @group promo-code
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\db\Exception
+     * @throws InvalidConfigException
+     * @throws Exception
      */
     public function testFields()
     {
@@ -46,8 +49,8 @@ class PromoCodeTest extends TestCase
 
     /**
      * @group promo-code
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\db\Exception
+     * @throws InvalidConfigException
+     * @throws Exception
      */
     public function testRelations()
     {
@@ -62,8 +65,8 @@ class PromoCodeTest extends TestCase
 
     /**
      * @group promo-code
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\db\Exception
+     * @throws InvalidConfigException
+     * @throws Exception
      */
     public function testGetFromForm()
     {
@@ -108,9 +111,9 @@ class PromoCodeTest extends TestCase
 
     /**
      * @group promo-code
-     * @throws \Throwable
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\db\Exception
+     * @throws Throwable
+     * @throws InvalidConfigException
+     * @throws Exception
      */
     public function testInsertModel()
     {
@@ -155,8 +158,8 @@ class PromoCodeTest extends TestCase
 
     /**
      * @group promo-code
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\db\Exception
+     * @throws InvalidConfigException
+     * @throws Exception
      */
     public function testUpdateModel()
     {
@@ -203,9 +206,9 @@ class PromoCodeTest extends TestCase
 
     /**
      * @group promo-code
-     * @throws \Throwable
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\db\Exception
+     * @throws Throwable
+     * @throws InvalidConfigException
+     * @throws Exception
      */
     public function testDeleteModel()
     {
@@ -219,8 +222,8 @@ class PromoCodeTest extends TestCase
 
     /**
      * @group promo-code
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\db\Exception
+     * @throws InvalidConfigException
+     * @throws Exception
      */
     public function testIsActive()
     {
@@ -231,8 +234,8 @@ class PromoCodeTest extends TestCase
 
     /**
      * @group promo-code
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\db\Exception
+     * @throws InvalidConfigException
+     * @throws Exception
      */
     public function testIsActiveFalse()
     {
@@ -244,8 +247,8 @@ class PromoCodeTest extends TestCase
 
     /**
      * @group promo-code
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\db\Exception
+     * @throws InvalidConfigException
+     * @throws Exception
      */
     public function testIsDeleted()
     {
@@ -256,8 +259,8 @@ class PromoCodeTest extends TestCase
 
     /**
      * @group promo-code
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\db\Exception
+     * @throws InvalidConfigException
+     * @throws Exception
      */
     public function testIsAvailableForOld()
     {
@@ -269,8 +272,8 @@ class PromoCodeTest extends TestCase
 
     /**
      * @group promo-code
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\db\Exception
+     * @throws InvalidConfigException
+     * @throws Exception
      */
     public function testCheckCode()
     {
@@ -282,8 +285,8 @@ class PromoCodeTest extends TestCase
 
     /**
      * @group promo-code
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\db\Exception
+     * @throws InvalidConfigException
+     * @throws Exception
      */
     public function testCheckAfterRechargeBeneficiary()
     {
@@ -295,8 +298,8 @@ class PromoCodeTest extends TestCase
 
     /**
      * @group promo-code
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\db\Exception
+     * @throws InvalidConfigException
+     * @throws Exception
      */
     public function testCheckAfterRechargePayment()
     {
@@ -304,5 +307,31 @@ class PromoCodeTest extends TestCase
         $promo_code = PromoCode::findOne(1);
         $user = User::findOne(1);
         $this->assertEquals(0, $promo_code->afterRechargePayment($user));
+    }
+
+    /**
+     * @group promo-code
+     * @throws InvalidConfigException
+     * @throws Exception
+     */
+    public function testCheckAfterDeactivationBeneficiary()
+    {
+        $this->initDb();
+        $promo_code = PromoCode::findOne(1);
+        $user = User::findOne(1);
+        $this->assertTrue($promo_code->afterDeactivationBeneficiary($user));
+    }
+
+    /**
+     * @group promo-code
+     * @throws InvalidConfigException
+     * @throws Exception
+     */
+    public function testCheckAfterDeactivationOperation()
+    {
+        $this->initDb();
+        $promo_code = PromoCode::findOne(1);
+        $user = User::findOne(1);
+        $this->assertEquals(0, $promo_code->afterDeactivationOperation($user));
     }
 }

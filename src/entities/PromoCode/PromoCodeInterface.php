@@ -104,4 +104,18 @@ interface PromoCodeInterface
      * @return bool
      */
     public function notifyAfterActivation(IdentityInterface $user): bool;
+
+    /**
+     * операции для бенефициара после деактивации промокода
+     * @param IdentityInterface $user
+     * @return bool
+     */
+    public function afterDeactivationBeneficiary(IdentityInterface $user): bool;
+
+    /**
+     * операция списания со счета неиспользованной промо суммы. должна вернуть ID добавленной операции
+     * @param IdentityInterface $user
+     * @return int
+     */
+    public function afterDeactivationOperation(IdentityInterface $user): int;
 }
