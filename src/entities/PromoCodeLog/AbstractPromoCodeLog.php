@@ -33,7 +33,8 @@ abstract class AbstractPromoCodeLog extends ActiveRecord implements RelationInte
     public const STATUS_WAIT = 2;
     public const STATUS_OVERDUE = 3;
     public const STATUS_ERROR = 4;
-    public const STATUS_DEACTIVATED = 5;
+    public const STATUS_ACTIVATED_NOT_USED = 5;
+    public const STATUS_DEACTIVATED = 6;
 
     /**
      * @return string
@@ -144,11 +145,12 @@ abstract class AbstractPromoCodeLog extends ActiveRecord implements RelationInte
     public static function getStatuses(int $status_id = null)
     {
         $statuses = [
-            self::STATUS_ACTIVATED => Yii::t('app', 'Активирован'),
+            self::STATUS_ACTIVATED => Yii::t('app', 'Активирован, использован'),
             self::STATUS_WAIT => Yii::t('app', 'В ожидании'),
             self::STATUS_OVERDUE => Yii::t('app', 'Просрочен'),
             self::STATUS_ERROR => Yii::t('app', 'Ошибка'),
-            self::STATUS_DEACTIVATED => Yii::t('app', 'Деактивирован')
+            self::STATUS_DEACTIVATED => Yii::t('app', 'Деактивирован'),
+            self::STATUS_ACTIVATED_NOT_USED => Yii::t('app', 'Активирован, не использован')
         ];
         if ($status_id !== null) {
             return $statuses[$status_id];
@@ -167,6 +169,9 @@ abstract class AbstractPromoCodeLog extends ActiveRecord implements RelationInte
         if ($this->status_id === self::STATUS_ACTIVATED) {
             return 'success';
         }
+        if ($this->status_id === self::STATUS_ACTIVATED_NOT_USED){
+            return 'primary';
+        }
         if ($this->status_id === self::STATUS_DEACTIVATED){
             return 'default';
         }
@@ -181,11 +186,25 @@ abstract class AbstractPromoCodeLog extends ActiveRecord implements RelationInte
      */
     public function setActivated(int $operation_id): bool
     {
-        $this->status_id = self::STATUS_ACTIVATED;
+        $this->status_id = self::STATUS_ACTIVATED_NOT_USED;
         $this->operation_id = $operation_id;
         $this->activated_at = time();
         if (!$this->save()) {
             throw new Exception(Yii::t('app', 'Ошибка при активации промокода'));
+        }
+        return true;
+    }
+
+    /**
+     * пометить промокод как использованный
+     * @return bool
+     * @throws Exception
+     */
+    public function setUsed(): bool
+    {
+        $this->status_id = self::STATUS_ACTIVATED;
+        if (!$this->save()){
+            throw new Exception(Yii::t('app', 'Ошибка при смене статуса'));
         }
         return true;
     }

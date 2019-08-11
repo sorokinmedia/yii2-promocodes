@@ -8,7 +8,8 @@ use sorokinmedia\promocodes\handlers\PromoCodeLog\interfaces\{Activate,
     ActivatePercentageDiscount,
     Deactivate,
     Delete,
-    Overdue};
+    Overdue,
+    SetUsed};
 use Throwable;
 use yii\db\Exception;
 
@@ -18,7 +19,7 @@ use yii\db\Exception;
  *
  * @property AbstractPromoCodeLog $promo_code_log
  */
-class PromoCodeLogHandler implements Delete, Overdue, Activate, ActivatePercentageDiscount, ActivateAfterRecharge, Deactivate
+class PromoCodeLogHandler implements Delete, Overdue, Activate, ActivatePercentageDiscount, ActivateAfterRecharge, Deactivate, SetUsed
 {
     public $promo_code_log;
 
@@ -89,5 +90,14 @@ class PromoCodeLogHandler implements Delete, Overdue, Activate, ActivatePercenta
     public function deactivate(int $operation_id): bool
     {
         return (new actions\Deactivate($this->promo_code_log, $operation_id))->execute();
+    }
+
+    /**
+     * @return bool
+     * @throws \Exception
+     */
+    public function setUsed(): bool
+    {
+        return (new actions\SetUsed($this->promo_code_log))->execute();
     }
 }

@@ -53,7 +53,7 @@ class PromoCodeLogTest extends TestCase
         $this->assertInstanceOf(PromoCodeLog::class, $log);
         $this->assertInstanceOf(User::class, $log->getUser()->one());
         $this->assertInstanceOf(PromoCode::class, $log->getPromoCode()->one());
-        $this->assertEquals('Активирован', $log->getStatus());
+        $this->assertEquals('Активирован, использован', $log->getStatus());
     }
 
     /**
@@ -62,7 +62,7 @@ class PromoCodeLogTest extends TestCase
     public function testGetStatuses()
     {
         $this->assertInternalType('array', PromoCodeLog::getStatuses());
-        $this->assertCount(5, PromoCodeLog::getStatuses());
+        $this->assertCount(6, PromoCodeLog::getStatuses());
     }
 
     /**
@@ -108,7 +108,7 @@ class PromoCodeLogTest extends TestCase
         $promo_code = PromoCode::findOne(1);
         $user = User::findOne(1);
         /** @var PromoCodeLog $log */
-        $log = PromoCodeLog::create($promo_code, $user, PromoCodeLog::STATUS_ACTIVATED);
+        $log = PromoCodeLog::create($promo_code, $user);
         $this->assertInstanceOf(PromoCodeLog::class, $log);
         $this->assertEquals($user->id, $log->user_id);
         $this->assertEquals($promo_code->id, $log->promo_code_id);
@@ -129,7 +129,7 @@ class PromoCodeLogTest extends TestCase
         $this->assertTrue($log->setActivated(2));
         $log->refresh();
         $this->assertEquals(2, $log->operation_id);
-        $this->assertEquals(PromoCodeLog::STATUS_ACTIVATED, $log->status_id);
+        $this->assertEquals(PromoCodeLog::STATUS_ACTIVATED_NOT_USED, $log->status_id);
     }
 
     /**

@@ -65,6 +65,12 @@ interface PromoCodeLogInterface
     public function setActivated(int $operation_id): bool;
 
     /**
+     * пометить как использованный
+     * @return bool
+     */
+    public function setUsed(): bool;
+
+    /**
      * пометить как деактивированный
      * @param int $operation_id
      * @return bool

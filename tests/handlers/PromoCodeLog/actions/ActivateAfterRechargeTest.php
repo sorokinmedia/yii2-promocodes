@@ -30,7 +30,7 @@ class ActivateAfterRechargeTest extends TestCase
         $this->assertTrue($handler->activateAfterRecharge(15));
         $promo_code_log->refresh();
         $this->assertEquals(15, $promo_code_log->operation_id);
-        $this->assertEquals(PromoCodeLog::STATUS_ACTIVATED, $promo_code_log->status_id);
+        $this->assertEquals(PromoCodeLog::STATUS_ACTIVATED_NOT_USED, $promo_code_log->status_id);
         $this->assertNotNull($promo_code_log->activated_at);
     }
 }
