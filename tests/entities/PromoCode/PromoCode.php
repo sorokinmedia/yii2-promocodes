@@ -27,4 +27,9 @@ class PromoCode extends AbstractPromoCode
     {
         return 0;
     }
+
+    public function notifyAfterActivation(IdentityInterface $user): bool
+    {
+        return true;
+    }
 }

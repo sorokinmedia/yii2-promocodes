@@ -97,4 +97,11 @@ interface PromoCodeInterface
      * @return bool
      */
     public function afterRechargeBeneficiary(IdentityInterface $user): bool;
+
+    /**
+     * уведомление после активации промокода
+     * @param IdentityInterface $user
+     * @return bool
+     */
+    public function notifyAfterActivation(IdentityInterface $user): bool;
 }

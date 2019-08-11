@@ -241,4 +241,11 @@ abstract class AbstractPromoCode extends ActiveRecord implements RelationInterfa
      * @return bool
      */
     abstract public function afterRechargeBeneficiary(IdentityInterface $user): bool;
+
+    /**
+     * уведомление после активации
+     * @param IdentityInterface $user
+     * @return bool
+     */
+    abstract public function notifyAfterActivation(IdentityInterface $user): bool;
 }
