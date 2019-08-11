@@ -31,6 +31,7 @@ class PromoCodeLogTest extends TestCase
                 'user_id',
                 'promo_code_id',
                 'operation_id',
+                'deactivate_operation_id',
                 'status_id',
                 'created_at',
                 'updated_at',
@@ -144,7 +145,7 @@ class PromoCodeLogTest extends TestCase
         $log = PromoCodeLog::findOne(2);
         $this->assertTrue($log->setDeactivated(2));
         $log->refresh();
-        $this->assertEquals(2, $log->operation_id);
+        $this->assertEquals(2, $log->deactivate_operation_id);
         $this->assertEquals(PromoCodeLog::STATUS_DEACTIVATED, $log->status_id);
     }
 

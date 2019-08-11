@@ -19,6 +19,7 @@ use yii\web\IdentityInterface;
  * @property int $user_id
  * @property int $promo_code_id
  * @property int $operation_id
+ * @property int $deactivate_operation_id
  * @property int $status_id
  * @property int $created_at
  * @property int $updated_at
@@ -74,7 +75,7 @@ abstract class AbstractPromoCodeLog extends ActiveRecord implements RelationInte
     public function rules(): array
     {
         return [
-            [['promo_code_id', 'operation_id', 'status_id', 'user_id', 'activated_at', 'deactivated_at'], 'integer'],
+            [['promo_code_id', 'operation_id', 'deactivate_operation_id', 'status_id', 'user_id', 'activated_at', 'deactivated_at'], 'integer'],
         ];
     }
 
@@ -87,7 +88,8 @@ abstract class AbstractPromoCodeLog extends ActiveRecord implements RelationInte
             'id' => Yii::t('app', 'ID'),
             'user_id' => Yii::t('app', 'Пользователь'),
             'code_id' => Yii::t('app', 'Промокод'),
-            'operation_id' => Yii::t('app', 'Операция'),
+            'operation_id' => Yii::t('app', 'Операция начисления'),
+            'deactivate_operation_id' => Yii::t('app', 'Операция списания'),
             'status_id' => Yii::t('app', 'Статус'),
             'created_at' => Yii::t('app', 'Создан'),
             'updated_at' => Yii::t('app', 'Обновлен'),
@@ -128,6 +130,14 @@ abstract class AbstractPromoCodeLog extends ActiveRecord implements RelationInte
     public function getOperation(): ActiveQuery
     {
         return $this->hasOne($this->__operationClass, ['id' => 'operation_id']);
+    }
+
+    /**
+     * @return ActiveQuery
+     */
+    public function getDeactivateOperation(): ActiveQuery
+    {
+        return $this->hasOne($this->__operationClass, ['id' => 'deactivate_operation_id']);
     }
 
     /**
@@ -218,7 +228,7 @@ abstract class AbstractPromoCodeLog extends ActiveRecord implements RelationInte
     public function setDeactivated(int $operation_id): bool
     {
         $this->status_id = self::STATUS_DEACTIVATED;
-        $this->operation_id = $operation_id;
+        $this->deactivate_operation_id = $operation_id;
         $this->deactivated_at = time();
         if (!$this->save()){
             throw new Exception(Yii::t('app', 'Ошибка при деактивации промокода'));

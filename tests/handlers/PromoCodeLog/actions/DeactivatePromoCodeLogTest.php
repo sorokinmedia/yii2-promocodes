@@ -10,10 +10,10 @@ use yii\base\InvalidConfigException;
 use yii\db\Exception;
 
 /**
- * Class DeactivateTest
+ * Class DeactivatePromoCodeLogTest
  * @package sorokinmedia\promocodes\tests\handlers\PromoCodeLog\actions
  */
-class DeactivateTest extends TestCase
+class DeactivatePromoCodeLogTest extends TestCase
 {
     /**
      * @group promo-code-log-handler
@@ -29,7 +29,7 @@ class DeactivateTest extends TestCase
         $handler = new PromoCodeLogHandler($promo_code_log);
         $this->assertTrue($handler->deactivate(15));
         $promo_code_log->refresh();
-        $this->assertEquals(15, $promo_code_log->operation_id);
+        $this->assertEquals(15, $promo_code_log->deactivate_operation_id);
         $this->assertEquals(PromoCodeLog::STATUS_DEACTIVATED, $promo_code_log->status_id);
         $this->assertNotNull($promo_code_log->deactivated_at);
     }
