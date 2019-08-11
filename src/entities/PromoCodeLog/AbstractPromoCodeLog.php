@@ -122,6 +122,14 @@ abstract class AbstractPromoCodeLog extends ActiveRecord implements RelationInte
     }
 
     /**
+     * @return ActiveQuery
+     */
+    public function getOperation(): ActiveQuery
+    {
+        return $this->hasOne($this->__operationClass, ['id' => 'operation_id']);
+    }
+
+    /**
      * @return string
      */
     public function getStatus(): string

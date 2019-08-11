@@ -40,6 +40,12 @@ interface PromoCodeLogInterface
     public function getPromoCode(): ActiveQuery;
 
     /**
+     * получить объект операции
+     * @return ActiveQuery
+     */
+    public function getOperation(): ActiveQuery;
+
+    /**
      * получить текстовку статуса
      * @return string
      */
