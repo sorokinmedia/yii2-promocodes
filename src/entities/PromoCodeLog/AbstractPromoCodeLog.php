@@ -156,9 +156,9 @@ abstract class AbstractPromoCodeLog extends ActiveRecord implements RelationInte
     {
         $statuses = [
             self::STATUS_ACTIVATED => Yii::t('app', 'Активирован, использован'),
-            self::STATUS_WAIT => Yii::t('app', 'В ожидании'),
+            self::STATUS_WAIT => Yii::t('app', 'В ожидании пополнения'),
             self::STATUS_OVERDUE => Yii::t('app', 'Просрочен'),
-            self::STATUS_ERROR => Yii::t('app', 'Ошибка'),
+            self::STATUS_ERROR => Yii::t('app', 'Ошибка активации'),
             self::STATUS_DEACTIVATED => Yii::t('app', 'Деактивирован'),
             self::STATUS_ACTIVATED_NOT_USED => Yii::t('app', 'Активирован, не использован')
         ];
