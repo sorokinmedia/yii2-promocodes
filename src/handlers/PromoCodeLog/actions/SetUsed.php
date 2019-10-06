@@ -3,7 +3,7 @@
 namespace sorokinmedia\promocodes\handlers\PromoCodeLog\actions;
 
 use Exception;
-use Yii;
+use sorokinmedia\promocodes\exceptions\PromoCodeSetUsedError;
 
 /**
  * Class SetUsed
@@ -20,10 +20,7 @@ class SetUsed extends AbstractAction
         try {
             return $this->promo_code_log->setUsed();
         } catch (Exception $exception) {
-            throw new Exception(Yii::t('app', 'Ошибка при пометке использованным, лог:{log_id}, {error}', [
-                'log_id' => $this->promo_code_log->id,
-                'error' => $exception->getMessage()
-            ]));
+            throw new PromoCodeSetUsedError($this->promo_code_log->id, $exception->getMessage());
         }
     }
 }

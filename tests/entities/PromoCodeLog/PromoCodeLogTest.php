@@ -21,7 +21,7 @@ class PromoCodeLogTest extends TestCase
      * @throws InvalidConfigException
      * @throws Exception
      */
-    public function testFields()
+    public function testFields(): void
     {
         $this->initDb();
         $log = new PromoCodeLog();
@@ -47,7 +47,7 @@ class PromoCodeLogTest extends TestCase
      * @throws InvalidConfigException
      * @throws Exception
      */
-    public function testRelations()
+    public function testRelations(): void
     {
         $this->initDb();
         $log = PromoCodeLog::findOne(1);
@@ -60,7 +60,7 @@ class PromoCodeLogTest extends TestCase
     /**
      * @group promo-code-log
      */
-    public function testGetStatuses()
+    public function testGetStatuses(): void
     {
         $this->assertInternalType('array', PromoCodeLog::getStatuses());
         $this->assertCount(6, PromoCodeLog::getStatuses());
@@ -71,7 +71,7 @@ class PromoCodeLogTest extends TestCase
      * @throws InvalidConfigException
      * @throws Exception
      */
-    public function testGetStatusLabel()
+    public function testGetStatusLabel(): void
     {
         $this->initDb();
         $log = PromoCodeLog::findOne(1);
@@ -80,10 +80,11 @@ class PromoCodeLogTest extends TestCase
 
     /**
      * @group promo-code-log
-     * @throws InvalidConfigException
      * @throws Exception
+     * @throws InvalidConfigException
+     * @throws Throwable
      */
-    public function testStaticCreate()
+    public function testStaticCreate(): void
     {
         $this->initDb();
         $this->initDbAdditional();
@@ -100,10 +101,11 @@ class PromoCodeLogTest extends TestCase
 
     /**
      * @group promo-code-log
-     * @throws InvalidConfigException
      * @throws Exception
+     * @throws InvalidConfigException
+     * @throws Throwable
      */
-    public function testStaticCreateExisted()
+    public function testStaticCreateExisted(): void
     {
         $this->initDb();
         $promo_code = PromoCode::findOne(1);
@@ -122,7 +124,7 @@ class PromoCodeLogTest extends TestCase
      * @throws InvalidConfigException
      * @throws Exception
      */
-    public function testSetActivated()
+    public function testSetActivated(): void
     {
         $this->initDb();
         $this->initDbAdditional();
@@ -138,7 +140,7 @@ class PromoCodeLogTest extends TestCase
      * @throws InvalidConfigException
      * @throws Exception
      */
-    public function testSetDeactivated()
+    public function testSetDeactivated(): void
     {
         $this->initDb();
         $this->initDbAdditional();
@@ -154,7 +156,7 @@ class PromoCodeLogTest extends TestCase
      * @throws InvalidConfigException
      * @throws Exception
      */
-    public function testSetOverdue()
+    public function testSetOverdue(): void
     {
         $this->initDb();
         $this->initDbAdditional();
@@ -171,7 +173,7 @@ class PromoCodeLogTest extends TestCase
      * @throws Exception
      * @throws StaleObjectException
      */
-    public function testDeleteModel()
+    public function testDeleteModel(): void
     {
         $this->initDb();
         $log = PromoCodeLog::findOne(1);

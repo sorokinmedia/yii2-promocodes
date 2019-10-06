@@ -3,7 +3,6 @@
 namespace sorokinmedia\promocodes\handlers\PromoCodeLog\actions;
 
 use sorokinmedia\promocodes\entities\PromoCodeLog\AbstractPromoCodeLog;
-use sorokinmedia\promocodes\handlers\PromoCodeLog\interfaces\ActionExecutable;
 
 /**
  * Class AbstractActionWithOperation

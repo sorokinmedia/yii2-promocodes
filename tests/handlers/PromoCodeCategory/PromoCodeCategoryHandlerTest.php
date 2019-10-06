@@ -1,9 +1,12 @@
 <?php
+
 namespace sorokinmedia\promocodes\tests\handlers\PromoCodeCategory;
 
 use sorokinmedia\promocodes\handlers\PromoCodeCategory\PromoCodeCategoryHandler;
 use sorokinmedia\promocodes\tests\entities\PromoCodeCategory\PromoCodeCategory;
 use sorokinmedia\promocodes\tests\TestCase;
+use yii\base\InvalidConfigException;
+use yii\db\Exception;
 
 /**
  * Class PromoCodeCategoryHandlerTest
@@ -13,10 +16,10 @@ class PromoCodeCategoryHandlerTest extends TestCase
 {
     /**
      * @group promo-code-category-handler
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\db\Exception
+     * @throws InvalidConfigException
+     * @throws Exception
      */
-    public function testHandler()
+    public function testHandler(): void
     {
         $this->initDb();
         $category = PromoCodeCategory::findOne(1);

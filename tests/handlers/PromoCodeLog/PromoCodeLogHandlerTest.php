@@ -1,9 +1,12 @@
 <?php
+
 namespace sorokinmedia\promocodes\tests\handlers\PromoCodeLog;
 
 use sorokinmedia\promocodes\handlers\PromoCodeLog\PromoCodeLogHandler;
 use sorokinmedia\promocodes\tests\entities\PromoCodeLog\PromoCodeLog;
 use sorokinmedia\promocodes\tests\TestCase;
+use yii\base\InvalidConfigException;
+use yii\db\Exception;
 
 /**
  * Class PromoCodeLogHandlerTest
@@ -13,10 +16,10 @@ class PromoCodeLogHandlerTest extends TestCase
 {
     /**
      * @group promo-code-log-handler
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\db\Exception
+     * @throws InvalidConfigException
+     * @throws Exception
      */
-    public function testHandler()
+    public function testHandler(): void
     {
         $this->initDb();
         $promo_log = PromoCodeLog::findOne(1);

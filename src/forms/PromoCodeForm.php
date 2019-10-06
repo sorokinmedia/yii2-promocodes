@@ -57,7 +57,7 @@ class PromoCodeForm extends Model
             $this->type_id = $promoCode->type_id;
             $this->creator_id = $promoCode->creator_id;
             $this->beneficiary_id = $promoCode->beneficiary_id;
-            $this->date_from = $promoCode->date_from ? $promoCode->date_from : time();
+            $this->date_from = $promoCode->date_from ?: time();
             $this->date_to = $promoCode->date_to;
             $this->sum_promo = $promoCode->sum_promo;
             $this->sum_recharge = $promoCode->sum_recharge;

@@ -1,9 +1,12 @@
 <?php
+
 namespace sorokinmedia\promocodes\tests\forms;
 
 use sorokinmedia\promocodes\forms\PromoCodeForm;
 use sorokinmedia\promocodes\tests\entities\PromoCode\PromoCode;
 use sorokinmedia\promocodes\tests\TestCase;
+use yii\base\InvalidConfigException;
+use yii\db\Exception;
 
 /**
  * Class PromoCodeFormTest
@@ -13,10 +16,10 @@ class PromoCodeFormTest extends TestCase
 {
     /**
      * @group forms
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\db\Exception
+     * @throws InvalidConfigException
+     * @throws Exception
      */
-    public function testConstruct()
+    public function testConstruct(): void
     {
         $this->initDb();
         $code = PromoCode::findOne(1);

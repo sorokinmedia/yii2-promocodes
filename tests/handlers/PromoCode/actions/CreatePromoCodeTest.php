@@ -6,6 +6,9 @@ use sorokinmedia\promocodes\forms\PromoCodeForm;
 use sorokinmedia\promocodes\handlers\PromoCode\PromoCodeHandler;
 use sorokinmedia\promocodes\tests\entities\PromoCode\PromoCode;
 use sorokinmedia\promocodes\tests\TestCase;
+use Throwable;
+use yii\base\InvalidConfigException;
+use yii\db\Exception;
 
 /**
  * Class CreatePromoCodeTest
@@ -15,11 +18,11 @@ class CreatePromoCodeTest extends TestCase
 {
     /**
      * @group promo-code-handler
-     * @throws \Throwable
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\db\Exception
+     * @throws Throwable
+     * @throws InvalidConfigException
+     * @throws Exception
      */
-    public function testAction()
+    public function testAction(): void
     {
         $this->initDb();
         $this->initDbAdditional();

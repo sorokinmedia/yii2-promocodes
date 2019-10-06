@@ -22,7 +22,7 @@ class DeactivatePromoCodeTest extends TestCase
      * @throws InvalidConfigException
      * @throws Exception
      */
-    public function testAction()
+    public function testAction(): void
     {
         $this->initDb();
         $this->initDbAdditional();

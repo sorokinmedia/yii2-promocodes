@@ -50,6 +50,7 @@ abstract class AbstractPromoCodeLog extends ActiveRecord implements RelationInte
      * @param IdentityInterface $user
      * @return PromoCodeLogInterface
      * @throws Exception
+     * @throws Throwable
      */
     public static function create(AbstractPromoCode $promoCode, IdentityInterface $user): PromoCodeLogInterface
     {

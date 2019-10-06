@@ -5,6 +5,9 @@ namespace sorokinmedia\promocodes\tests\handlers\PromoCodeCategory\actions;
 use sorokinmedia\promocodes\handlers\PromoCodeCategory\PromoCodeCategoryHandler;
 use sorokinmedia\promocodes\tests\entities\PromoCodeCategory\PromoCodeCategory;
 use sorokinmedia\promocodes\tests\TestCase;
+use Throwable;
+use yii\base\InvalidConfigException;
+use yii\db\Exception;
 
 /**
  * Class DeletePromoCodeCategoryTest
@@ -14,11 +17,11 @@ class DeletePromoCodeCategoryTest extends TestCase
 {
     /**
      * @group promo-code-category-handler
-     * @throws \Throwable
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\db\Exception
+     * @throws Throwable
+     * @throws InvalidConfigException
+     * @throws Exception
      */
-    public function testAction()
+    public function testAction(): void
     {
         $this->initDb();
         $this->initDbAdditional();

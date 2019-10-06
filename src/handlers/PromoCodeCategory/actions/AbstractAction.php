@@ -22,6 +22,5 @@ abstract class AbstractAction implements ActionExecutable
     public function __construct(AbstractPromoCodeCategory $promoCodeCategory)
     {
         $this->promo_code_category = $promoCodeCategory;
-        return $this;
     }
 }

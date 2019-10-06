@@ -5,6 +5,9 @@ namespace sorokinmedia\promocodes\tests\handlers\PromoCodeLog\actions;
 use sorokinmedia\promocodes\handlers\PromoCodeLog\PromoCodeLogHandler;
 use sorokinmedia\promocodes\tests\entities\PromoCodeLog\PromoCodeLog;
 use sorokinmedia\promocodes\tests\TestCase;
+use Throwable;
+use yii\base\InvalidConfigException;
+use yii\db\Exception;
 
 /**
  * Class OverduePromoCodeLogTest
@@ -14,11 +17,11 @@ class OverduePromoCodeLogTest extends TestCase
 {
     /**
      * @group promo-code-log-handler
-     * @throws \Throwable
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\db\Exception
+     * @throws Throwable
+     * @throws InvalidConfigException
+     * @throws Exception
      */
-    public function testAction()
+    public function testAction(): void
     {
         $this->initDb();
         $this->initDbAdditional();

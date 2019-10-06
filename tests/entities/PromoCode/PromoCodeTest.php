@@ -20,7 +20,7 @@ class PromoCodeTest extends TestCase
      * @throws InvalidConfigException
      * @throws Exception
      */
-    public function testFields()
+    public function testFields(): void
     {
         $this->initDb();
         $promo_code = new PromoCode();
@@ -52,7 +52,7 @@ class PromoCodeTest extends TestCase
      * @throws InvalidConfigException
      * @throws Exception
      */
-    public function testRelations()
+    public function testRelations(): void
     {
         $this->initDb();
         $this->initDbAdditional();
@@ -68,7 +68,7 @@ class PromoCodeTest extends TestCase
      * @throws InvalidConfigException
      * @throws Exception
      */
-    public function testGetFromForm()
+    public function testGetFromForm(): void
     {
         $this->initDb();
         $this->initDbAdditional();
@@ -115,7 +115,7 @@ class PromoCodeTest extends TestCase
      * @throws InvalidConfigException
      * @throws Exception
      */
-    public function testInsertModel()
+    public function testInsertModel(): void
     {
         $this->initDb();
         $this->initDbAdditional();
@@ -161,7 +161,7 @@ class PromoCodeTest extends TestCase
      * @throws InvalidConfigException
      * @throws Exception
      */
-    public function testUpdateModel()
+    public function testUpdateModel(): void
     {
         $this->initDb();
         /** @var PromoCodeCategory $category */
@@ -210,7 +210,7 @@ class PromoCodeTest extends TestCase
      * @throws InvalidConfigException
      * @throws Exception
      */
-    public function testDeleteModel()
+    public function testDeleteModel(): void
     {
         $this->initDb();
         /** @var PromoCode $promo_code */
@@ -225,7 +225,7 @@ class PromoCodeTest extends TestCase
      * @throws InvalidConfigException
      * @throws Exception
      */
-    public function testIsActive()
+    public function testIsActive(): void
     {
         $this->initDb();
         $promo_code = PromoCode::findOne(1);
@@ -237,7 +237,7 @@ class PromoCodeTest extends TestCase
      * @throws InvalidConfigException
      * @throws Exception
      */
-    public function testIsActiveFalse()
+    public function testIsActiveFalse(): void
     {
         $this->initDb();
         $this->initDbAdditional();
@@ -250,7 +250,7 @@ class PromoCodeTest extends TestCase
      * @throws InvalidConfigException
      * @throws Exception
      */
-    public function testIsDeleted()
+    public function testIsDeleted(): void
     {
         $this->initDb();
         $promo_code = PromoCode::findOne(1);
@@ -262,7 +262,7 @@ class PromoCodeTest extends TestCase
      * @throws InvalidConfigException
      * @throws Exception
      */
-    public function testIsAvailableForOld()
+    public function testIsAvailableForOld(): void
     {
         $this->initDb();
         $this->initDbAdditional();
@@ -275,7 +275,7 @@ class PromoCodeTest extends TestCase
      * @throws InvalidConfigException
      * @throws Exception
      */
-    public function testCheckCode()
+    public function testCheckCode(): void
     {
         $this->initDb();
         $promo_code = PromoCode::findOne(1);
@@ -288,7 +288,7 @@ class PromoCodeTest extends TestCase
      * @throws InvalidConfigException
      * @throws Exception
      */
-    public function testCheckAfterRechargeBeneficiary()
+    public function testCheckAfterRechargeBeneficiary(): void
     {
         $this->initDb();
         $promo_code = PromoCode::findOne(1);
@@ -301,7 +301,7 @@ class PromoCodeTest extends TestCase
      * @throws InvalidConfigException
      * @throws Exception
      */
-    public function testCheckAfterRechargePayment()
+    public function testCheckAfterRechargePayment(): void
     {
         $this->initDb();
         $promo_code = PromoCode::findOne(1);
@@ -314,7 +314,7 @@ class PromoCodeTest extends TestCase
      * @throws InvalidConfigException
      * @throws Exception
      */
-    public function testCheckAfterDeactivationBeneficiary()
+    public function testCheckAfterDeactivationBeneficiary(): void
     {
         $this->initDb();
         $promo_code = PromoCode::findOne(1);
@@ -327,7 +327,7 @@ class PromoCodeTest extends TestCase
      * @throws InvalidConfigException
      * @throws Exception
      */
-    public function testCheckAfterDeactivationOperation()
+    public function testCheckAfterDeactivationOperation(): void
     {
         $this->initDb();
         $promo_code = PromoCode::findOne(1);

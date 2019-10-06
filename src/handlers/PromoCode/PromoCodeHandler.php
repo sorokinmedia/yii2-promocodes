@@ -6,8 +6,7 @@ use sorokinmedia\promocodes\entities\PromoCode\AbstractPromoCode;
 use sorokinmedia\promocodes\handlers\PromoCode\interfaces\{Activate, Create, Deactivate, Delete, Update};
 use Throwable;
 use yii\db\Exception;
-use yii\web\IdentityInterface;
-use yii\web\ServerErrorHttpException;
+use yii\web\{IdentityInterface,ServerErrorHttpException};
 
 /**
  * Class PromoCodeHandler
@@ -26,7 +25,6 @@ class PromoCodeHandler implements Create, Update, Delete, Activate, Deactivate
     public function __construct(AbstractPromoCode $promoCode)
     {
         $this->promo_code = $promoCode;
-        return $this;
     }
 
     /**

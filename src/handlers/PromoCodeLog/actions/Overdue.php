@@ -2,6 +2,9 @@
 
 namespace sorokinmedia\promocodes\handlers\PromoCodeLog\actions;
 
+use Throwable;
+use yii\db\Exception;
+
 /**
  * Class Overdue
  * @package sorokinmedia\promocodes\handlers\PromoCodeLog\actions
@@ -10,8 +13,8 @@ class Overdue extends AbstractAction
 {
     /**
      * @return bool
-     * @throws \Throwable
-     * @throws \yii\db\Exception
+     * @throws Throwable
+     * @throws Exception
      */
     public function execute(): bool
     {

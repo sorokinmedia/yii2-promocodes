@@ -4,8 +4,14 @@ namespace sorokinmedia\promocodes\tests\entities\PromoCodeCategory;
 
 use sorokinmedia\promocodes\entities\PromoCodeCategory\PromoCodeCategoryTree;
 use sorokinmedia\promocodes\forms\PromoCodeCategoryForm;
-use sorokinmedia\promocodes\tests\entities\PromoCode\PromoCode;
-use sorokinmedia\promocodes\tests\TestCase;
+use sorokinmedia\promocodes\tests\{
+    entities\PromoCode\PromoCode,TestCase
+};
+use Throwable;
+use yii\base\InvalidConfigException;
+use yii\db\{
+    Exception,StaleObjectException
+};
 
 /**
  * Class PromoCodeCategoryTest
@@ -15,10 +21,10 @@ class PromoCodeCategoryTest extends TestCase
 {
     /**
      * @group promo-code-category
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\db\Exception
+     * @throws InvalidConfigException
+     * @throws Exception
      */
-    public function testFields()
+    public function testFields(): void
     {
         $this->initDb();
         $category = new PromoCodeCategory();
@@ -36,10 +42,10 @@ class PromoCodeCategoryTest extends TestCase
 
     /**
      * @group promo-code-category
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\db\Exception
+     * @throws InvalidConfigException
+     * @throws Exception
      */
-    public function testRelations()
+    public function testRelations(): void
     {
         $this->initDb();
         $this->initDbAdditional();
@@ -57,10 +63,10 @@ class PromoCodeCategoryTest extends TestCase
 
     /**
      * @group promo-code-category
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\db\Exception
+     * @throws InvalidConfigException
+     * @throws Exception
      */
-    public function testGetFromForm()
+    public function testGetFromForm(): void
     {
         $this->initDb();
         $category = PromoCodeCategory::findOne(1);
@@ -78,12 +84,11 @@ class PromoCodeCategoryTest extends TestCase
 
     /**
      * @group promo-code-category
-     * @throws \Throwable
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\db\Exception
-     * @throws \yii\db\StaleObjectException
+     * @throws Throwable
+     * @throws InvalidConfigException
+     * @throws Exception
      */
-    public function testInsertModel()
+    public function testInsertModel(): void
     {
         $this->initDb();
         $category = new PromoCodeCategory();
@@ -103,11 +108,11 @@ class PromoCodeCategoryTest extends TestCase
 
     /**
      * @group promo-code-category
-     * @throws \Throwable
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\db\Exception
+     * @throws Throwable
+     * @throws InvalidConfigException
+     * @throws Exception
      */
-    public function testInsertModelWithParent()
+    public function testInsertModelWithParent(): void
     {
         $this->initDb();
         $category = new PromoCodeCategory();
@@ -129,10 +134,10 @@ class PromoCodeCategoryTest extends TestCase
 
     /**
      * @group promo-code-category
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\db\Exception
+     * @throws InvalidConfigException
+     * @throws Exception
      */
-    public function testUpdateModel()
+    public function testUpdateModel(): void
     {
         $this->initDb();
         /** @var PromoCodeCategory $category */
@@ -149,11 +154,11 @@ class PromoCodeCategoryTest extends TestCase
 
     /**
      * @group promo-code-category
-     * @throws \Throwable
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\db\Exception
+     * @throws Throwable
+     * @throws InvalidConfigException
+     * @throws Exception
      */
-    public function testDeleteModel()
+    public function testDeleteModel(): void
     {
         $this->initDb();
         /** @var PromoCodeCategory $category */
@@ -165,10 +170,11 @@ class PromoCodeCategoryTest extends TestCase
 
     /**
      * @group promo-code-category
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\db\Exception
+     * @throws Exception
+     * @throws InvalidConfigException
+     * @throws Throwable
      */
-    public function testStaticCreate()
+    public function testStaticCreate(): void
     {
         $this->initDb();
         $category = PromoCodeCategory::create('test_static_create', 1);
@@ -182,10 +188,11 @@ class PromoCodeCategoryTest extends TestCase
 
     /**
      * @group promo-code-category
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\db\Exception
+     * @throws Exception
+     * @throws InvalidConfigException
+     * @throws Throwable
      */
-    public function testStaticCreateExisted()
+    public function testStaticCreateExisted(): void
     {
         $this->initDb();
         $category = PromoCodeCategory::create('test_category');
@@ -197,10 +204,10 @@ class PromoCodeCategoryTest extends TestCase
 
     /**
      * @group promo-code-category
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\db\Exception
+     * @throws InvalidConfigException
+     * @throws Exception
      */
-    public function testGetParentsArray()
+    public function testGetParentsArray(): void
     {
         $this->initDb();
         $this->initDbAdditional();
@@ -213,10 +220,10 @@ class PromoCodeCategoryTest extends TestCase
 
     /**
      * @group promo-code-category
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\db\Exception
+     * @throws InvalidConfigException
+     * @throws Exception
      */
-    public function testTree()
+    public function testTree(): void
     {
         $this->initDb();
         $this->initDbAdditional();

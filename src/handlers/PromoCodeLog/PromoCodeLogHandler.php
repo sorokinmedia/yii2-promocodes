@@ -30,7 +30,6 @@ class PromoCodeLogHandler implements Delete, Overdue, Activate, ActivatePercenta
     public function __construct(AbstractPromoCodeLog $promoCodeLog)
     {
         $this->promo_code_log = $promoCodeLog;
-        return $this;
     }
 
     /**

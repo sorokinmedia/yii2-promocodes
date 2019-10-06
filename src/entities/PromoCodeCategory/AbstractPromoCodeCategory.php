@@ -53,6 +53,7 @@ abstract class AbstractPromoCodeCategory extends ActiveRecord implements Relatio
      * @param int|null $parent_id
      * @return PromoCodeCategoryInterface
      * @throws Exception
+     * @throws Throwable
      */
     public static function create(string $name, int $parent_id = 0): PromoCodeCategoryInterface
     {
@@ -73,7 +74,6 @@ abstract class AbstractPromoCodeCategory extends ActiveRecord implements Relatio
     }
 
     /**
-     * //todo: test
      * список родитилей
      * @return array
      */

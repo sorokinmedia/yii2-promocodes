@@ -24,7 +24,6 @@ class PromoCodeCategoryHandler implements Create, Update, Delete
     public function __construct(AbstractPromoCodeCategory $promoCodeCategory)
     {
         $this->promo_code_category = $promoCodeCategory;
-        return $this;
     }
 
     /**

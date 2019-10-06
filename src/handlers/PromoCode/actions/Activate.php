@@ -1,10 +1,11 @@
 <?php
+
 namespace sorokinmedia\promocodes\handlers\PromoCode\actions;
 
+use Exception;
 use sorokinmedia\promocodes\entities\PromoCode\AbstractPromoCode;
-use yii\db\Exception;
-use yii\web\IdentityInterface;
-use yii\web\ServerErrorHttpException;
+use Yii;
+use yii\web\{IdentityInterface,ServerErrorHttpException};
 
 /**
  * Class Activate
@@ -31,17 +32,16 @@ class Activate extends AbstractAction
      * @return int
      * @throws ServerErrorHttpException
      */
-    public function execute() : int
+    public function execute(): int
     {
-        //todo: test transaction
-        $transaction = \Yii::$app->db->beginTransaction();
-        try{
+        $transaction = Yii::$app->db->beginTransaction();
+        try {
             $this->promo_code->afterRechargeBeneficiary($this->promo_code->beneficiary);
             $operation_id = $this->promo_code->afterRechargePayment($this->user);
             $this->promo_code->notifyAfterActivation($this->user);
             $transaction->commit();
             return $operation_id;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             $transaction->rollBack();
             throw new ServerErrorHttpException($e->getTraceAsString());
         }
