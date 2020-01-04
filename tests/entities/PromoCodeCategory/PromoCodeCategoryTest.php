@@ -4,14 +4,10 @@ namespace sorokinmedia\promocodes\tests\entities\PromoCodeCategory;
 
 use sorokinmedia\promocodes\entities\PromoCodeCategory\PromoCodeCategoryTree;
 use sorokinmedia\promocodes\forms\PromoCodeCategoryForm;
-use sorokinmedia\promocodes\tests\{
-    entities\PromoCode\PromoCode,TestCase
-};
+use sorokinmedia\promocodes\tests\{entities\PromoCode\PromoCode, TestCase};
 use Throwable;
 use yii\base\InvalidConfigException;
-use yii\db\{
-    Exception,StaleObjectException
-};
+use yii\db\{Exception};
 
 /**
  * Class PromoCodeCategoryTest

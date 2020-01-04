@@ -6,7 +6,8 @@ use sorokinmedia\promocodes\tests\entities\{PromoCode\PromoCode,
     PromoCodeCategory\PromoCodeCategory,
     PromoCodeLog\PromoCodeLog,
     UserAccessToken\UserAccessToken,
-    UserMeta\UserMeta};
+    UserMeta\UserMeta
+};
 
 /**
  * Trait RelationClassTrait
@@ -24,13 +25,13 @@ trait RelationClassTrait
     /**
      * инициализация связей
      */
-    public function init()
+    public function init(): void
     {
         parent::init();
         $this->initClasses();
     }
 
-    public function initClasses()
+    public function initClasses(): void
     {
         $this->__userClass = User::class;
         $this->__userMetaClass = UserMeta::class;

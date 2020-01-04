@@ -1,4 +1,5 @@
 <?php
+
 namespace sorokinmedia\promocodes\tests\entities\PromoCodeCategory;
 
 use sorokinmedia\promocodes\entities\PromoCodeCategory\AbstractPromoCodeCategory;

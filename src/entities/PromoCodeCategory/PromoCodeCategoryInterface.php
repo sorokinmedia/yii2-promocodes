@@ -46,7 +46,7 @@ interface PromoCodeCategoryInterface
      * трансфер данных из формы в модель
      * @return void
      */
-    public function getFromForm();
+    public function getFromForm(): void;
 
     /**
      * добавление модели в БД

@@ -180,10 +180,10 @@ abstract class AbstractPromoCodeLog extends ActiveRecord implements RelationInte
         if ($this->status_id === self::STATUS_ACTIVATED) {
             return 'success';
         }
-        if ($this->status_id === self::STATUS_ACTIVATED_NOT_USED){
+        if ($this->status_id === self::STATUS_ACTIVATED_NOT_USED) {
             return 'primary';
         }
-        if ($this->status_id === self::STATUS_DEACTIVATED){
+        if ($this->status_id === self::STATUS_DEACTIVATED) {
             return 'default';
         }
         return 'danger';
@@ -214,7 +214,7 @@ abstract class AbstractPromoCodeLog extends ActiveRecord implements RelationInte
     public function setUsed(): bool
     {
         $this->status_id = self::STATUS_ACTIVATED;
-        if (!$this->save()){
+        if (!$this->save()) {
             throw new Exception(Yii::t('app', 'Ошибка при смене статуса'));
         }
         return true;
@@ -231,7 +231,7 @@ abstract class AbstractPromoCodeLog extends ActiveRecord implements RelationInte
         $this->status_id = self::STATUS_DEACTIVATED;
         $this->deactivate_operation_id = $operation_id;
         $this->deactivated_at = time();
-        if (!$this->save()){
+        if (!$this->save()) {
             throw new Exception(Yii::t('app', 'Ошибка при деактивации промокода'));
         }
         return true;

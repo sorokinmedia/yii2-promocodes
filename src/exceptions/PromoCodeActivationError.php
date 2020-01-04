@@ -17,14 +17,6 @@ class PromoCodeActivationError extends Exception
     public $log_id;
 
     /**
-     * @return string
-     */
-    public function getName(): string
-    {
-        return 'Promo Code Activation Error Exception';
-    }
-
-    /**
      * PromoCodeActivationError constructor.
      * @param int $log_id
      * @param string $message
@@ -39,5 +31,13 @@ class PromoCodeActivationError extends Exception
             'error_message' => $message
         ]);
         parent::__construct($message, $code, $previous);
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return 'Promo Code Activation Error Exception';
     }
 }

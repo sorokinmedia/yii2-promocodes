@@ -1,4 +1,5 @@
 <?php
+
 namespace sorokinmedia\promocodes\tests\entities\PromoCode;
 
 use sorokinmedia\promocodes\entities\PromoCode\AbstractPromoCode;
@@ -13,17 +14,17 @@ class PromoCode extends AbstractPromoCode
 {
     use RelationClassTrait;
 
-    public function checkCode(IdentityInterface $user) : bool
+    public function checkCode(IdentityInterface $user): bool
     {
         return true;
     }
 
-    public function afterRechargeBeneficiary(IdentityInterface $user) : bool
+    public function afterRechargeBeneficiary(IdentityInterface $user): bool
     {
         return true;
     }
 
-    public function afterRechargePayment(IdentityInterface $user) : int
+    public function afterRechargePayment(IdentityInterface $user): int
     {
         return 0;
     }

@@ -5,9 +5,9 @@ namespace sorokinmedia\promocodes\entities\PromoCodeCategory;
 use sorokinmedia\ar_relations\RelationInterface;
 use sorokinmedia\promocodes\forms\PromoCodeCategoryForm;
 use sorokinmedia\treeview\TreeViewModelStaticInterface;
-use yii\db\{ActiveQuery, ActiveRecord, Exception};
 use Throwable;
 use Yii;
+use yii\db\{ActiveQuery, ActiveRecord, Exception};
 
 /**
  * This is the model class for table "promo_code_cat".
@@ -74,6 +74,44 @@ abstract class AbstractPromoCodeCategory extends ActiveRecord implements Relatio
     }
 
     /**
+     * апдейт родительского элемента
+     * @param int|null $old_parent_id
+     * @return bool
+     * @throws Exception
+     */
+    public function updateParent(int $old_parent_id = null): bool
+    {
+        if ($this->parent_id !== null && $this->parent_id > 0 && $this->parent_id !== '') {
+            return $this->parent->hasChildUpdate(1);
+        }
+        if ($old_parent_id !== null) {
+            $child_count = self::find()->where(['parent_id' => $old_parent_id])->count();
+            if ($child_count === 0) {
+                $parent = static::findOne($old_parent_id);
+                if ($parent !== null) {
+                    return $parent->hasChildUpdate(0);
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * апдейт параметра has_child
+     * @param int $has_child
+     * @return bool
+     * @throws Exception
+     */
+    public function hasChildUpdate(int $has_child): bool
+    {
+        $this->has_child = $has_child;
+        if (!$this->save()) {
+            throw new Exception(Yii::t('app', 'Ошибка при обновлении родителя'));
+        }
+        return true;
+    }
+
+    /**
      * список родитилей
      * @return array
      */
@@ -93,9 +131,9 @@ abstract class AbstractPromoCodeCategory extends ActiveRecord implements Relatio
     /**
      * @param int $parent_id
      * @param null $filter
-     * @return array|mixed|ActiveRecord[]
+     * @return array|ActiveRecord[]
      */
-    public static function getChildModelsStatic(int $parent_id, $filter = null)
+    public static function getChildModelsStatic(int $parent_id, $filter = null): array
     {
         return static::find()
             ->where(['parent_id' => $parent_id])
@@ -173,51 +211,13 @@ abstract class AbstractPromoCodeCategory extends ActiveRecord implements Relatio
     /**
      * трансфер данных из формы в модель
      */
-    public function getFromForm()
+    public function getFromForm(): void
     {
         if ($this->form !== null) {
             $this->name = $this->form->name;
             $this->parent_id = $this->form->parent_id;
             $this->has_child = 0;
         }
-    }
-
-    /**
-     * апдейт родительского элемента
-     * @param int|null $old_parent_id
-     * @return bool
-     * @throws Exception
-     */
-    public function updateParent(int $old_parent_id = null): bool
-    {
-        if ($this->parent_id !== null && $this->parent_id > 0 && $this->parent_id !== '') {
-            return $this->parent->hasChildUpdate(1);
-        }
-        if ($old_parent_id !== null) {
-            $child_count = self::find()->where(['parent_id' => $old_parent_id])->count();
-            if ($child_count === 0) {
-                $parent = static::findOne($old_parent_id);
-                if ($parent !== null) {
-                    return $parent->hasChildUpdate(0);
-                }
-            }
-        }
-        return true;
-    }
-
-    /**
-     * апдейт параметра has_child
-     * @param int $has_child
-     * @return bool
-     * @throws Exception
-     */
-    public function hasChildUpdate(int $has_child): bool
-    {
-        $this->has_child = $has_child;
-        if (!$this->save()) {
-            throw new Exception(Yii::t('app', 'Ошибка при обновлении родителя'));
-        }
-        return true;
     }
 
     /**

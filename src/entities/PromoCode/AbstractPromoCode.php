@@ -4,9 +4,9 @@ namespace sorokinmedia\promocodes\entities\PromoCode;
 
 use sorokinmedia\ar_relations\RelationInterface;
 use sorokinmedia\promocodes\forms\PromoCodeForm;
-use yii\db\{ActiveQuery, ActiveRecord, Exception};
 use Throwable;
 use Yii;
+use yii\db\{ActiveQuery, ActiveRecord, Exception};
 use yii\web\IdentityInterface;
 
 /**
@@ -131,7 +131,9 @@ abstract class AbstractPromoCode extends ActiveRecord implements RelationInterfa
      */
     public function getOperations(): ActiveQuery
     {
-        return $this->hasMany($this->__operationClass, ['comment' => 'title'])->andFilterWhere(['type_id' => $this->__operationClass::BILL_IN_PROMOCODE])->orderBy(['id' => SORT_DESC]);
+        return $this->hasMany($this->__operationClass, ['comment' => 'title'])
+            ->andFilterWhere(['type_id' => $this->__operationClass::BILL_IN_PROMOCODE])
+            ->orderBy(['id' => SORT_DESC]);
     }
 
     /**
@@ -151,7 +153,7 @@ abstract class AbstractPromoCode extends ActiveRecord implements RelationInterfa
     /**
      * переносит данные из формы в модель
      */
-    public function getFromForm()
+    public function getFromForm(): void
     {
         $this->value = $this->form->value;
         $this->title = $this->form->title;

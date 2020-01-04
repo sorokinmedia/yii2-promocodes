@@ -1,4 +1,5 @@
 <?php
+
 namespace sorokinmedia\promocodes\tests\entities\PromoCodeLog;
 
 use sorokinmedia\promocodes\entities\PromoCodeLog\AbstractPromoCodeLog;

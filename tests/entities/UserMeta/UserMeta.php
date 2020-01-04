@@ -1,8 +1,9 @@
 <?php
+
 namespace sorokinmedia\promocodes\tests\entities\UserMeta;
 
-use sorokinmedia\user\entities\UserMeta\AbstractUserMeta;
 use sorokinmedia\promocodes\tests\entities\User\RelationClassTrait;
+use sorokinmedia\user\entities\UserMeta\AbstractUserMeta;
 
 /**
  * Class UserMeta

@@ -1,7 +1,9 @@
 <?php
+
 namespace sorokinmedia\promocodes\tests\entities\User;
 
 use sorokinmedia\user\entities\User\AbstractUser;
+use Yii;
 
 /**
  * Class User
@@ -11,9 +13,31 @@ class User extends AbstractUser
 {
     use RelationClassTrait;
 
-    const ROLE_ADMIN = 'roleAdmin';
-    const ROLE_OWNER = 'roleOwner';
-    const ROLE_WORKER = 'roleWorker';
+    public const ROLE_ADMIN = 'roleAdmin';
+    public const ROLE_OWNER = 'roleOwner';
+    public const ROLE_WORKER = 'roleWorker';
+
+    public static function getRoleLink(string $role = null)
+    {
+        $roles = [
+            self::ROLE_ADMIN => 'admin'
+        ];
+        if ($role !== null) {
+            return $roles[$role];
+        }
+        return $roles;
+    }
+
+    public static function getRolesArray(string $role = null)
+    {
+        $roles = [
+            self::ROLE_ADMIN => Yii::t('app', 'Администратор')
+        ];
+        if ($role !== null) {
+            return $roles[$role];
+        }
+        return $roles;
+    }
 
     public function afterSignUp(string $role = null)
     {
@@ -25,54 +49,32 @@ class User extends AbstractUser
         return true;
     }
 
-    public function sendEmailConfirmation() : bool
+    public function sendEmailConfirmation(): bool
     {
         return true;
     }
 
-    public function sendEmailConfirmationWithPassword(string $password) : bool
+    public function sendEmailConfirmationWithPassword(string $password): bool
     {
         return true;
     }
 
-    public function sendPasswordResetMail() : bool
+    public function sendPasswordResetMail(): bool
     {
         return true;
     }
 
-    public function getPrimaryRole() : string
+    public function getPrimaryRole(): string
     {
         return self::ROLE_ADMIN;
     }
 
-    public static function getRoleLink(string $role = null)
-    {
-        $roles = [
-            self::ROLE_ADMIN => 'admin'
-        ];
-        if ($role !== null){
-            return $roles[$role];
-        }
-        return $roles;
-    }
-
-    public static function getRolesArray(string $role = null)
-    {
-        $roles = [
-            self::ROLE_ADMIN => \Yii::t('app', 'Администратор')
-        ];
-        if ($role !== null){
-            return $roles[$role];
-        }
-        return $roles;
-    }
-
-    public function telegramOn() : bool
+    public function telegramOn(): bool
     {
         return true;
     }
 
-    public function telegramOff() : bool
+    public function telegramOff(): bool
     {
         return true;
     }

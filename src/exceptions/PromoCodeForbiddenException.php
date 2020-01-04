@@ -1,4 +1,5 @@
 <?php
+
 namespace sorokinmedia\promocodes\exceptions;
 
 use yii\db\Exception;
