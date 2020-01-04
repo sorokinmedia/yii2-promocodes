@@ -2,7 +2,6 @@
 
 namespace sorokinmedia\promocodes\tests;
 
-use PHPUnit_Framework_TestCase;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\console\Application;
@@ -12,7 +11,7 @@ use yii\db\{Connection,Exception,Schema};
  * Class TestCase
  * @package sorokinmedia\promocodes\tests
  */
-abstract class TestCase extends PHPUnit_Framework_TestCase
+abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
     /**
      * инициализация нужных таблиц
@@ -183,7 +182,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
             'creator_id' => 1,
             'beneficiary_id' => 1,
             'date_from' => 1514764800,
-            'date_to' => 1577836800,
+            'date_to' => 1609459200,
             'sum_promo' => 1000,
             'sum_recharge' => 2000,
             'discount_fixed' => null,
@@ -312,7 +311,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
     /**
      * @throws InvalidConfigException
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->mockApplication();
@@ -337,7 +336,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
     /**
      *
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->destroyApplication();
         parent::tearDown();

@@ -62,7 +62,7 @@ class PromoCodeLogTest extends TestCase
      */
     public function testGetStatuses(): void
     {
-        $this->assertInternalType('array', PromoCodeLog::getStatuses());
+        $this->assertIsArray(PromoCodeLog::getStatuses());
         $this->assertCount(6, PromoCodeLog::getStatuses());
     }
 

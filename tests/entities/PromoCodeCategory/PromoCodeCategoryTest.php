@@ -51,9 +51,9 @@ class PromoCodeCategoryTest extends TestCase
         $this->initDbAdditional();
         $category = PromoCodeCategory::findOne(1);
         $this->assertInstanceOf(PromoCodeCategory::class, $category);
-        $this->assertInternalType('array', $category->getPromoCodes()->all());
+        $this->assertIsArray($category->getPromoCodes()->all());
         $this->assertInstanceOf(PromoCode::class, ($category->getPromoCodes()->all())[0]);
-        $this->assertInternalType('array', $category->getNotDeletedPromoCodes()->all());
+        $this->assertIsArray($category->getNotDeletedPromoCodes()->all());
         $this->assertInstanceOf(PromoCode::class, ($category->getNotDeletedPromoCodes()->all())[0]);
 
         $category_with_parent = PromoCodeCategory::findOne(3);
@@ -228,7 +228,7 @@ class PromoCodeCategoryTest extends TestCase
         $this->initDb();
         $this->initDbAdditional();
         $tree = PromoCodeCategoryTree::makeTreeStaticArray(PromoCodeCategory::class, 0, '-');
-        $this->assertInternalType('array', $tree[0]);
+        $this->assertIsArray($tree[0]);
         $this->assertEquals([
             [
                 'id' => 2,
