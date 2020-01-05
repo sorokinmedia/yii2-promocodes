@@ -90,20 +90,20 @@ class PromoCodeForm extends Model
     public function attributeLabels(): array
     {
         return [
-            'value' => Yii::t('app', 'Промокод'),
-            'title' => Yii::t('app', 'Название'),
-            'description' => Yii::t('app', 'Описание'),
-            'cat_id' => Yii::t('app', 'Категория'),
-            'type_id' => Yii::t('app', 'Тип'),
-            'creator_id' => Yii::t('app', 'Добавил'),
-            'beneficiary_id' => Yii::t('app', 'Бенефициар'),
-            'date_from' => Yii::t('app', 'Начало действия'),
-            'date_to' => Yii::t('app', 'Окончание действия'),
-            'sum_promo' => Yii::t('app', 'Сумма промо'),
-            'sum_recharge' => Yii::t('app', 'Сумма для активации'),
-            'discount_fixed' => Yii::t('app', 'Скидка в рублях'),
-            'discount_percentage' => Yii::t('app', 'Скидка в %'),
-            'is_available_old' => Yii::t('app', 'Доступен для старых пользователей'),
+            'value' => Yii::t('app-sm-promocodes', 'Промокод'),
+            'title' => Yii::t('app-sm-promocodes', 'Название'),
+            'description' => Yii::t('app-sm-promocodes', 'Описание'),
+            'cat_id' => Yii::t('app-sm-promocodes', 'Категория'),
+            'type_id' => Yii::t('app-sm-promocodes', 'Тип'),
+            'creator_id' => Yii::t('app-sm-promocodes', 'Добавил'),
+            'beneficiary_id' => Yii::t('app-sm-promocodes', 'Бенефициар'),
+            'date_from' => Yii::t('app-sm-promocodes', 'Начало действия'),
+            'date_to' => Yii::t('app-sm-promocodes', 'Окончание действия'),
+            'sum_promo' => Yii::t('app-sm-promocodes', 'Сумма промо'),
+            'sum_recharge' => Yii::t('app-sm-promocodes', 'Сумма для активации'),
+            'discount_fixed' => Yii::t('app-sm-promocodes', 'Скидка в рублях'),
+            'discount_percentage' => Yii::t('app-sm-promocodes', 'Скидка в %'),
+            'is_available_old' => Yii::t('app-sm-promocodes', 'Доступен для старых пользователей'),
         ];
     }
 }

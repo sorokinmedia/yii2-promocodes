@@ -16,3 +16,7 @@
 ## Установка
 
 ## Настройка
+
+## Translation
+
+Use `Yii::t('app-sm-promocodes', '')` for messages which need to be translated.

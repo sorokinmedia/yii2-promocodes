@@ -67,7 +67,7 @@ abstract class AbstractPromoCodeCategory extends ActiveRecord implements Relatio
             'has_child' => 0
         ]);
         if (!$promo_category->insert()) {
-            throw new Exception(Yii::t('app', 'Ошибка при добавлении в БД'));
+            throw new Exception(Yii::t('app-sm-promocodes', 'Ошибка при добавлении в БД'));
         }
         $promo_category->updateParent();
         return $promo_category;
@@ -106,7 +106,7 @@ abstract class AbstractPromoCodeCategory extends ActiveRecord implements Relatio
     {
         $this->has_child = $has_child;
         if (!$this->save()) {
-            throw new Exception(Yii::t('app', 'Ошибка при обновлении родителя'));
+            throw new Exception(Yii::t('app-sm-promocodes', 'Ошибка при обновлении родителя'));
         }
         return true;
     }
@@ -161,11 +161,11 @@ abstract class AbstractPromoCodeCategory extends ActiveRecord implements Relatio
     public function attributeLabels(): array
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'name' => Yii::t('app', 'Название'),
-            'parent_id' => Yii::t('app', 'Родитель'),
-            'has_child' => Yii::t('app', 'Есть дочерние'),
-            'is_deleted' => Yii::t('app', 'Удален'),
+            'id' => Yii::t('app-sm-promocodes', 'ID'),
+            'name' => Yii::t('app-sm-promocodes', 'Название'),
+            'parent_id' => Yii::t('app-sm-promocodes', 'Родитель'),
+            'has_child' => Yii::t('app-sm-promocodes', 'Есть дочерние'),
+            'is_deleted' => Yii::t('app-sm-promocodes', 'Удален'),
         ];
     }
 
@@ -202,7 +202,7 @@ abstract class AbstractPromoCodeCategory extends ActiveRecord implements Relatio
     {
         $this->getFromForm();
         if (!$this->insert()) {
-            throw new Exception(Yii::t('app', 'Ошибка при добавлении в БД'));
+            throw new Exception(Yii::t('app-sm-promocodes', 'Ошибка при добавлении в БД'));
         }
         $this->updateParent();
         return true;
@@ -229,7 +229,7 @@ abstract class AbstractPromoCodeCategory extends ActiveRecord implements Relatio
         $old_parent_id = $this->parent_id;
         $this->getFromForm();
         if (!$this->save()) {
-            throw new Exception(Yii::t('app', 'Ошибка при обновлении в БД'));
+            throw new Exception(Yii::t('app-sm-promocodes', 'Ошибка при обновлении в БД'));
         }
         $this->updateParent($old_parent_id);
         return true;
@@ -244,7 +244,7 @@ abstract class AbstractPromoCodeCategory extends ActiveRecord implements Relatio
     {
         $this->is_deleted = 1;
         if (!$this->save()) {
-            throw new Exception(Yii::t('app', 'Ошибка при удалении из БД'));
+            throw new Exception(Yii::t('app-sm-promocodes', 'Ошибка при удалении из БД'));
         }
         $this->updateParent();
         return true;

@@ -65,7 +65,7 @@ abstract class AbstractPromoCodeLog extends ActiveRecord implements RelationInte
             'status_id' => self::STATUS_WAIT
         ]);
         if (!$promo_code_log->insert()) {
-            throw new Exception(Yii::t('app', 'Ошибка при добавления лога в БД'));
+            throw new Exception(Yii::t('app-sm-promocodes', 'Ошибка при добавления лога в БД'));
         }
         return $promo_code_log;
     }
@@ -86,16 +86,16 @@ abstract class AbstractPromoCodeLog extends ActiveRecord implements RelationInte
     public function attributeLabels(): array
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'user_id' => Yii::t('app', 'Пользователь'),
-            'code_id' => Yii::t('app', 'Промокод'),
-            'operation_id' => Yii::t('app', 'Операция начисления'),
-            'deactivate_operation_id' => Yii::t('app', 'Операция списания'),
-            'status_id' => Yii::t('app', 'Статус'),
-            'created_at' => Yii::t('app', 'Создан'),
-            'updated_at' => Yii::t('app', 'Обновлен'),
-            'activated_at' => Yii::t('app', 'Активирован'),
-            'deactivated_at' => Yii::t('app', 'Декативирован'),
+            'id' => Yii::t('app-sm-promocodes', 'ID'),
+            'user_id' => Yii::t('app-sm-promocodes', 'Пользователь'),
+            'code_id' => Yii::t('app-sm-promocodes', 'Промокод'),
+            'operation_id' => Yii::t('app-sm-promocodes', 'Операция начисления'),
+            'deactivate_operation_id' => Yii::t('app-sm-promocodes', 'Операция списания'),
+            'status_id' => Yii::t('app-sm-promocodes', 'Статус'),
+            'created_at' => Yii::t('app-sm-promocodes', 'Создан'),
+            'updated_at' => Yii::t('app-sm-promocodes', 'Обновлен'),
+            'activated_at' => Yii::t('app-sm-promocodes', 'Активирован'),
+            'deactivated_at' => Yii::t('app-sm-promocodes', 'Декативирован'),
         ];
     }
 
@@ -156,12 +156,12 @@ abstract class AbstractPromoCodeLog extends ActiveRecord implements RelationInte
     public static function getStatuses(int $status_id = null)
     {
         $statuses = [
-            self::STATUS_ACTIVATED => Yii::t('app', 'Активирован, использован'),
-            self::STATUS_WAIT => Yii::t('app', 'В ожидании пополнения'),
-            self::STATUS_OVERDUE => Yii::t('app', 'Просрочен'),
-            self::STATUS_ERROR => Yii::t('app', 'Ошибка активации'),
-            self::STATUS_DEACTIVATED => Yii::t('app', 'Деактивирован'),
-            self::STATUS_ACTIVATED_NOT_USED => Yii::t('app', 'Активирован, не использован')
+            self::STATUS_ACTIVATED => Yii::t('app-sm-promocodes', 'Активирован, использован'),
+            self::STATUS_WAIT => Yii::t('app-sm-promocodes', 'В ожидании пополнения'),
+            self::STATUS_OVERDUE => Yii::t('app-sm-promocodes', 'Просрочен'),
+            self::STATUS_ERROR => Yii::t('app-sm-promocodes', 'Ошибка активации'),
+            self::STATUS_DEACTIVATED => Yii::t('app-sm-promocodes', 'Деактивирован'),
+            self::STATUS_ACTIVATED_NOT_USED => Yii::t('app-sm-promocodes', 'Активирован, не использован')
         ];
         if ($status_id !== null) {
             return $statuses[$status_id];
@@ -201,7 +201,7 @@ abstract class AbstractPromoCodeLog extends ActiveRecord implements RelationInte
         $this->operation_id = $operation_id;
         $this->activated_at = time();
         if (!$this->save()) {
-            throw new Exception(Yii::t('app', 'Ошибка при активации промокода'));
+            throw new Exception(Yii::t('app-sm-promocodes', 'Ошибка при активации промокода'));
         }
         return true;
     }
@@ -215,7 +215,7 @@ abstract class AbstractPromoCodeLog extends ActiveRecord implements RelationInte
     {
         $this->status_id = self::STATUS_ACTIVATED;
         if (!$this->save()) {
-            throw new Exception(Yii::t('app', 'Ошибка при смене статуса'));
+            throw new Exception(Yii::t('app-sm-promocodes', 'Ошибка при смене статуса'));
         }
         return true;
     }
@@ -232,7 +232,7 @@ abstract class AbstractPromoCodeLog extends ActiveRecord implements RelationInte
         $this->deactivate_operation_id = $operation_id;
         $this->deactivated_at = time();
         if (!$this->save()) {
-            throw new Exception(Yii::t('app', 'Ошибка при деактивации промокода'));
+            throw new Exception(Yii::t('app-sm-promocodes', 'Ошибка при деактивации промокода'));
         }
         return true;
     }
@@ -246,7 +246,7 @@ abstract class AbstractPromoCodeLog extends ActiveRecord implements RelationInte
     {
         $this->status_id = self::STATUS_OVERDUE;
         if (!$this->save()) {
-            throw new Exception(Yii::t('app', 'Ошибка при просрочке промокода'));
+            throw new Exception(Yii::t('app-sm-promocodes', 'Ошибка при просрочке промокода'));
         }
         return true;
     }
@@ -260,7 +260,7 @@ abstract class AbstractPromoCodeLog extends ActiveRecord implements RelationInte
     public function deleteModel(): bool
     {
         if (!$this->delete()) {
-            throw new Exception(Yii::t('app', 'Ошибка при удалении из БД'));
+            throw new Exception(Yii::t('app-sm-promocodes', 'Ошибка при удалении из БД'));
         }
         return true;
     }

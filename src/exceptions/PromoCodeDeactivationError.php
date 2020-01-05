@@ -26,7 +26,7 @@ class PromoCodeDeactivationError extends Exception
     public function __construct(int $log_id, $message = '', $code = 0, Throwable $previous = null)
     {
         $this->log_id = $log_id;
-        $message = Yii::t('app', 'Ошибка при деактивации промокода, лог:{log_id}, {error_message}', [
+        $message = Yii::t('app-sm-promocodes', 'Ошибка при деактивации промокода, лог:{log_id}, {error_message}', [
             'log_id' => $this->log_id,
             'error_message' => $message
         ]);

@@ -82,22 +82,22 @@ abstract class AbstractPromoCode extends ActiveRecord implements RelationInterfa
     public function attributeLabels(): array
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'value' => Yii::t('app', 'Промокод'),
-            'title' => Yii::t('app', 'Название'),
-            'description' => Yii::t('app', 'Описание'),
-            'cat_id' => Yii::t('app', 'Категория'),
-            'type_id' => Yii::t('app', 'Тип'),
-            'creator_id' => Yii::t('app', 'Добавил'),
-            'beneficiary_id' => Yii::t('app', 'Бенефициар'),
-            'date_from' => Yii::t('app', 'Начало действия'),
-            'date_to' => Yii::t('app', 'Окончание действия'),
-            'sum_promo' => Yii::t('app', 'Сумма промо'),
-            'sum_recharge' => Yii::t('app', 'Сумма для активации'),
-            'discount_fixed' => Yii::t('app', 'Скидка в рублях'),
-            'discount_percentage' => Yii::t('app', 'Скидка в %'),
-            'is_available_old' => Yii::t('app', 'Доступен для старых пользователей'),
-            'is_deleted' => Yii::t('app', 'Удален'),
+            'id' => Yii::t('app-sm-promocodes', 'ID'),
+            'value' => Yii::t('app-sm-promocodes', 'Промокод'),
+            'title' => Yii::t('app-sm-promocodes', 'Название'),
+            'description' => Yii::t('app-sm-promocodes', 'Описание'),
+            'cat_id' => Yii::t('app-sm-promocodes', 'Категория'),
+            'type_id' => Yii::t('app-sm-promocodes', 'Тип'),
+            'creator_id' => Yii::t('app-sm-promocodes', 'Добавил'),
+            'beneficiary_id' => Yii::t('app-sm-promocodes', 'Бенефициар'),
+            'date_from' => Yii::t('app-sm-promocodes', 'Начало действия'),
+            'date_to' => Yii::t('app-sm-promocodes', 'Окончание действия'),
+            'sum_promo' => Yii::t('app-sm-promocodes', 'Сумма промо'),
+            'sum_recharge' => Yii::t('app-sm-promocodes', 'Сумма для активации'),
+            'discount_fixed' => Yii::t('app-sm-promocodes', 'Скидка в рублях'),
+            'discount_percentage' => Yii::t('app-sm-promocodes', 'Скидка в %'),
+            'is_available_old' => Yii::t('app-sm-promocodes', 'Доступен для старых пользователей'),
+            'is_deleted' => Yii::t('app-sm-promocodes', 'Удален'),
         ];
     }
 
@@ -145,7 +145,7 @@ abstract class AbstractPromoCode extends ActiveRecord implements RelationInterfa
     {
         $this->getFromForm();
         if (!$this->insert()) {
-            throw new Exception(Yii::t('app', 'Ошибка при добавлении в БД'));
+            throw new Exception(Yii::t('app-sm-promocodes', 'Ошибка при добавлении в БД'));
         }
         return true;
     }
@@ -179,7 +179,7 @@ abstract class AbstractPromoCode extends ActiveRecord implements RelationInterfa
     {
         $this->getFromForm();
         if (!$this->save()) {
-            throw new Exception(Yii::t('app', 'Ошибка при обновлении в БД'));
+            throw new Exception(Yii::t('app-sm-promocodes', 'Ошибка при обновлении в БД'));
         }
         return true;
     }
@@ -193,7 +193,7 @@ abstract class AbstractPromoCode extends ActiveRecord implements RelationInterfa
     {
         $this->is_deleted = 1;
         if (!$this->save()) {
-            throw new Exception(Yii::t('app', 'Ошибка при удалении из БД'));
+            throw new Exception(Yii::t('app-sm-promocodes', 'Ошибка при удалении из БД'));
         }
         return true;
     }

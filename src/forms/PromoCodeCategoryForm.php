@@ -51,8 +51,8 @@ class PromoCodeCategoryForm extends Model
     public function attributeLabels(): array
     {
         return [
-            'name' => Yii::t('app', 'Название'),
-            'parent_id' => Yii::t('app', 'Родитель'),
+            'name' => Yii::t('app-sm-promocodes', 'Название'),
+            'parent_id' => Yii::t('app-sm-promocodes', 'Родитель'),
         ];
     }
 }
